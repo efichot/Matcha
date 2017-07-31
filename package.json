@@ -1,0 +1,66 @@
+{
+  "name": "matcha",
+  "version": "1.0.0",
+  "description": "Starting point for a new Node.js Api",
+  "main": "index.js",
+  "private": false,
+  "engines": {
+    "node": ">=6",
+    "npm": ">=3"
+  },
+  "scripts": {
+    "production": "NODE_ENV=production node ./build/index.js",
+    "build": "NODE_ENV=production backpack build",
+    "start": "NODE_ENV=development backpack",
+    "lint": "eslint -c .eslintrc src"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/efichot/Matcha"
+  },
+  "keywords": [
+    "matcha",
+    "backpack-core",
+    "express",
+    "babel",
+    "es8"
+  ],
+  "author": "Etienne F. <efichot@student.42.fr>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/efichot/Matcha/issues"
+  },
+  "homepage": "https://github.com/efichot/Matcha#readme",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "cookie-parser": "^1.4.3",
+    "cors": "^2.7.1",
+    "dotenv": "^4.0.0",
+    "express": "^4.14.0",
+    "helmet": "^3.4.0",
+    "lodash": "^4.14.1",
+    "mongoose": "^4.5.7",
+    "mongoose-gen": "^2.1.1",
+    "mongoose-paginate": "^5.0.0",
+    "passport": "^0.3.2",
+    "passport-jwt": "^2.2.1"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.18.0",
+    "babel-core": "^6.11.4",
+    "babel-eslint": "^7.2.3",
+    "babel-plugin-transform-class-properties": "^6.22.0",
+    "babel-plugin-transform-export-extensions": "^6.22.0",
+    "babel-polyfill": "^6.22.0",
+    "babel-preset-latest": "^6.22.0",
+    "babel-preset-stage-3": "^6.22.0",
+    "backpack-core": "^0.4.0-rc1",
+    "eslint": "^4.1.1",
+    "eslint-config-airbnb-base": "^11.2.0",
+    "eslint-plugin-import": "^2.6.1",
+    "morgan": "^1.7.0"
+  },
+  "optionalDependencies": {
+    "fsevents": "^1.1.2"
+  }
+}
