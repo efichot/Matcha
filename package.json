@@ -1,7 +1,7 @@
 {
   "name": "matcha",
   "version": "1.0.0",
-  "description": "Starting point for a new Node.js Api",
+  "description": "dating website",
   "main": "index.js",
   "private": false,
   "engines": {
@@ -36,6 +36,7 @@
     "cookie-parser": "^1.4.3",
     "cors": "^2.7.1",
     "dotenv": "^4.0.0",
+    "eonasdan-bootstrap-datetimepicker": "^4.17.47",
     "express": "^4.14.0",
     "helmet": "^3.4.0",
     "lodash": "^4.14.1",
@@ -43,7 +44,8 @@
     "mongoose-gen": "^2.1.1",
     "mongoose-paginate": "^5.0.0",
     "passport": "^0.3.2",
-    "passport-jwt": "^2.2.1"
+    "passport-jwt": "^2.2.1",
+    "pug": "^2.0.0-rc.2"
   },
   "devDependencies": {
     "babel-cli": "^6.18.0",

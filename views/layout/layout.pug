@@ -1,0 +1,13 @@
+doctype html(lang='en')
+head
+  include ../partials/header
+
+body(class='body #{bodyPage}')
+  
+  if isNotHome
+    include ../partials/navbar
+  
+  block content
+
+  include ../partials/footer
+  

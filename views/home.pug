@@ -1,0 +1,99 @@
+extends layout/layout
+
+block content
+  .container-fluid.matcha-home
+    .matcha-inscription
+      .jumbotron.center-block
+        h1
+          | MAT
+          strong CHA
+        p.lead
+          | We know that not all of our members are looking for the same thing, so we've made it really easy for you to find the kind of person you're looking for. Whether that's someone with similar values, the same taste in music or simply someone tall, dark and handsome, we can help you find them on our site.
+        button#join-us.btn.btn-warning.btn-lg(type='button')
+          span.glyphicon.glyphicon-heart(aria-hidden='true')
+          |   Join us
+        button#members.btn.btn-default.btn-lg(type='button')
+          span.glyphicon.glyphicon-user(aria-hidden='true')
+          |   Members access
+        form#home-subscribe.hidden
+          .row
+            .col-md-6.col-xs-12
+              #form-birthdate.form-group
+                label(for='birthdate') Birthdate
+                #datetimepicker.input-group.date
+                  input#birthdate.form-control(type='text', placeholder='JJ/MM/AAAA')
+                  span.input-group-addon
+                    span.glyphicon.glyphicon-calendar
+              .form-group.hidden.form-sub
+                label(for='email')
+                  | Email address 
+                  span.hidden.email-error.text-danger
+                    span.glyphicon.glyphicon-alert(aria-hidden='true')
+                    |  Already registered in database
+                input#email.form-control(type='email', name='email', placeholder='Email')
+              .form-group.hidden.form-sub
+                label(for='login')
+                  | Username 
+                  span.hidden.login-error.text-danger
+                    span.glyphicon.glyphicon-alert(aria-hidden='true')
+                    |  Already registered in database
+                input#login.form-control(type='text', name='login', placeholder='Username')
+            .col-md-6.col-xs-12
+              .form-group.hidden.form-sub
+                label(for='firstname') First name
+                input#firstname.form-control(type='text', name='firstname', placeholder='First name')
+              .form-group.hidden.form-sub
+                label(for='lastname') Last name
+                input#lastname.form-control(type='text', name='lastname', placeholder='Last name')
+              .form-group.hidden.form-sub
+                label(for='password') Password
+                input#password.form-control(type='password', name='password', placeholder='Password')
+          button.btn.btn-warning.hidden.form-sub(type='submit', disabled='')
+            span.glyphicon.glyphicon-log-in(aria-hidden='true')
+            |   Subscribe
+          small.term-of-use.hidden.form-sub
+            | The information you provide will be used. Limited, group companies, and their service providers located within and outside of the European Union in order to provide you with access to the services. You may access or request access to information concerning you in order to have it modified, deleted or to forbid any further use of it by us in the dedicated section. Some information, comments or content (e.g. photographs, video, profile, lifestyle) that you optionally provide may possibly, under your own responsibility and on your own initiative, reveal your ethnic origin, nationality, religion and/or sexual orientation. We will process and protect the information you provide to us in accordance with your privacy choices and the Terms of Use.
+        form#home-login.hidden
+          .row
+            .col-md-6.col-xs-12
+              .form-group
+                label(for='login2')
+                  | Username 
+                  span.hidden.login2-error.text-danger
+                    span.glyphicon.glyphicon-alert(aria-hidden='true')
+                    |  Login not registered
+                input#login2.form-control(type='text', placeholder='Username')
+            .col-md-6.col-xs-12
+              .form-group
+                label(for='password2')
+                  | Password 
+                  span.hidden.password2-error.text-danger
+                    span.glyphicon.glyphicon-alert(aria-hidden='true')
+                    |  Bad password
+                input#password2.form-control(type='password', placeholder='Password')
+          button#signin-button.btn.btn-default(type='submit', disabled='')
+            span.glyphicon.glyphicon-log-in(aria-hidden='true')
+            |   Sign in
+          button#signin-forgot.btn.btn-link(type='button')
+            span.glyphicon.glyphicon-question-sign(aria-hidden='true')
+            |   Forgot password ?
+          small.term-of-use
+            | The information you provide will be used. Limited, group companies, and their service providers located within and outside of the European Union in order to provide you with access to the services. You may access or request access to information concerning you in order to have it modified, deleted or to forbid any further use of it by us in the dedicated section. Some information, comments or content (e.g. photographs, video, profile, lifestyle) that you optionally provide may possibly, under your own responsibility and on your own initiative, reveal your ethnic origin, nationality, religion and/or sexual orientation. We will process and protect the information you provide to us in accordance with your privacy choices and the Terms of Use.
+        form#home-forgot.hidden
+          .row
+            .col-md-6.col-xs-12
+              label(for='instructions') Forgot password instructions
+              p#instructions
+                | Enter the email address you used to subscribe on our website, clic on  
+                em.text-muted
+                  span.glyphicon.glyphicon-envelope(aria-hidden='true')
+                  |  Send me password reset instructions
+                |  and we’ll send you instructions to reset your password.
+            .col-md-6.col-xs-12
+              .form-group
+                label(for='email2') Email
+                input#email2.form-control(type='email', placeholder='Email')
+              button#forgot-button.btn.btn-default(type='button', disabled='')
+                span.glyphicon.glyphicon-envelope(aria-hidden='true')
+                |   Send me password reset instructions
+  script(type='text/javascript', src='/js/home.js')

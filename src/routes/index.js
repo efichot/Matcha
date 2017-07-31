@@ -1,7 +1,9 @@
-import main from './main'
-import api from './api'
+import express from 'express';
+import home from '../homepage';
 
-export {
-  main,
-  api,
-}
+const router = express.Router()
+
+router.get('/', home.renderHome);
+
+export default router
+
