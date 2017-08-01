@@ -29,7 +29,7 @@ block content
                   | Email address 
                   span.hidden.email-error.text-danger
                     span.glyphicon.glyphicon-alert(aria-hidden='true')
-                    |  Already registered in database
+                    |  Not valid email
                 input#email.form-control(type='email', name='email', placeholder='Email')
               .form-group.hidden.form-sub
                 label(for='login')
@@ -51,6 +51,7 @@ block content
           button.btn.btn-warning.hidden.form-sub(type='submit', disabled='')
             span.glyphicon.glyphicon-log-in(aria-hidden='true')
             |   Subscribe
+          br
           small.term-of-use.hidden.form-sub
             | The information you provide will be used. Limited, group companies, and their service providers located within and outside of the European Union in order to provide you with access to the services. You may access or request access to information concerning you in order to have it modified, deleted or to forbid any further use of it by us in the dedicated section. Some information, comments or content (e.g. photographs, video, profile, lifestyle) that you optionally provide may possibly, under your own responsibility and on your own initiative, reveal your ethnic origin, nationality, religion and/or sexual orientation. We will process and protect the information you provide to us in accordance with your privacy choices and the Terms of Use.
         form#home-login.hidden
@@ -93,7 +94,7 @@ block content
               .form-group
                 label(for='email2') Email
                 input#email2.form-control(type='email', placeholder='Email')
-              button#forgot-button.btn.btn-default(type='button', disabled='')
+              button#forgot-button.btn.btn-default(type='button')
                 span.glyphicon.glyphicon-envelope(aria-hidden='true')
                 |   Send me password reset instructions
   script(type='text/javascript', src='/js/home.js')

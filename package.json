@@ -12,7 +12,8 @@
     "production": "NODE_ENV=production node ./build/index.js",
     "build": "NODE_ENV=production backpack build",
     "start": "NODE_ENV=development backpack",
-    "lint": "eslint -c .eslintrc src"
+    "lint": "eslint -c .eslintrc src",
+    "deploy": "npm install && NODE_ENV=development backpack"
   },
   "repository": {
     "type": "git",
@@ -40,6 +41,7 @@
     "express": "^4.14.0",
     "helmet": "^3.4.0",
     "lodash": "^4.14.1",
+    "moment": "^2.18.1",
     "mongoose": "^4.5.7",
     "mongoose-gen": "^2.1.1",
     "mongoose-paginate": "^5.0.0",

@@ -23,7 +23,8 @@ app
   .use(cors()) // Enable Cross Origin Resource Sharing
   .use(helmet()) // Secure your app by setting various HTTP headers
   .use(passport.initialize()) // initialize passport middleware
-  .use(express.static('public'));
+  .use(express.static('public'))
+  .use(express.static('node_modules'));
 
 app
   .disable('x-powered-by') // Disable 'X-Powered-By' header in response
