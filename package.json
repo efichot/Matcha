@@ -41,6 +41,7 @@
     "express": "^4.14.0",
     "helmet": "^3.4.0",
     "lodash": "^4.14.1",
+    "mhash": "^2.1.6",
     "moment": "^2.18.1",
     "mongoose": "^4.5.7",
     "mongoose-gen": "^2.1.1",

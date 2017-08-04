@@ -357,7 +357,7 @@
 
   $('button.form-sub').on('submit click', function (e) {
     e.preventDefault();
-    var newUser = {
+    let newUser = {
       username: protectEntry($('#login').val()),
       password: $('#password').val(),
       mail: protectEntry($('#email').val()),
@@ -393,7 +393,7 @@
 
   $('button#signin-button').on('submit click', function (e) {
     e.preventDefault();
-    var user = {
+    let user = {
       username: protectEntry($('#login2').val()),
       password: $('#password2').val()
     };

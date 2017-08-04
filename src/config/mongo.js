@@ -1,20 +1,18 @@
-import mongoose from 'mongoose'
-import paginate from 'mongoose-paginate'
-import { log, error } from 'console'
+import { MongoClient } from 'mongodb';
 
-import demoSchema from '../schemas/demoSchema'
+const mongoConnectAsync = (res, callback) => {
+  const { connect } = MongoClient;
 
-mongoose.Promise = Promise
+  const url = 'mongodb://localhost:27017/matcha_efichot';
+  connect(url, (err, db) => {
+    if (err) {
+      res.status(500).send('Error - Failed to connect to database');
+    } else {
+      const Users = db.collection('users');
+      callback(Users);
+    }
+  });
+  return (true);
+}
 
-// const { DB_USER, DB_PORT, DB_PASSWORD, DB_HOST, DB_COLLECTION } = process.env
-
-// Create mongo database connection
-// mongoose.connect(`mongodb://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_COLLECTION}`)
-
-/* eslint-disable no-console */
-mongoose.connection.on('connected', () => log('[MongoDB] Database is  connected'))
-mongoose.connection.on('disconnected', () => error('[MongoDB] Database is disconnected'))
-/* eslint-enable no-console */
-
-demoSchema.plugin(paginate)
-mongoose.model('Demo', demoSchema)
+export default mongoConnectAsync;
