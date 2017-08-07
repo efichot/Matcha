@@ -386,7 +386,7 @@
           form.email = false;
           checkForm(form);
         }
-      }).fail(function () {
+      }).fail(function() {
         console.log('Failed to create new user...');
       });
   });

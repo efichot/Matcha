@@ -5,6 +5,7 @@ import helmet from 'helmet'
 import cookieParser from 'cookie-parser'
 import bodyParser from 'body-parser'
 import passport from 'passport'
+import session from 'express-session'
 import { log } from 'console'
 
 import router from '../routes'
@@ -24,7 +25,12 @@ app
   .use(helmet()) // Secure your app by setting various HTTP headers
   .use(passport.initialize()) // initialize passport middleware
   .use(express.static('public'))
-  .use(express.static('node_modules'));
+  .use(express.static('node_modules'))
+  .use(session({
+    secret: 'matcha',
+    resave: false,
+    saveUninitialized: true
+  }));
 
 app
   .disable('x-powered-by') // Disable 'X-Powered-By' header in response
