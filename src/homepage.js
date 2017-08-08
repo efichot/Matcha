@@ -2,6 +2,7 @@ import mongoConnectAsync from './config/mongo';
 import { resLog, sendEmail } from './lib';
 import hash from 'mhash';
 import { log } from 'console';
+import { ObjectID } from 'mongodb';
 
 const renderHome = (req, res, next) => {
   // addFixures(res);
@@ -89,9 +90,47 @@ const sendResetEmail = (req, res, next) => {
   })
 }
 
+const resetPassword = (req, res, next) => {
+  const { username, password } = req.params;
+
+  mongoConnectAsync(res, async (Users) => {
+    const user = await Users.findOne({ 'account.username': username });
+
+    if (user && user.account.password === password) {
+      res.render('reset', {
+        isNotHome: false,
+        title: 'Matcha - Reset Password',
+        bodyPage: 'reset-body',
+        id: user._id,
+        username,
+      })
+    } else {
+      res.status(404).send('404: Page not found');
+    }
+  })
+}
+
+const setNewPassword = (req, res, next) => {
+  const { id, password } = req.params;
+
+  mongoConnectAsync(res, async (Users) => {
+    const user = await Users.findOne({ _id: ObjectID(id) });
+
+    if (!user) res.end();
+
+    Users.updateOne({ _id: ObjectID(id) }, {
+      $set: { 'account.password': hash('whirlpool', password) },
+    }, (err) => {
+      if (!err) resLog(res, `${user.account.username} has update his password`, { done: 'success' });
+    });
+  });
+}
+
 export default {
   renderHome,
   addNewUser,
   connectUser,
   sendResetEmail,
+  resetPassword,
+  setNewPassword,
 };

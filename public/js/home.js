@@ -216,7 +216,7 @@
 
   $('#reset-button').on('click', function () {
     if ($('#newPassword').val().length > 4 && $('#newPassword').val().length < 17) {
-      $.get('/reset-my-password/' + $('#home-forgot').data('id') + '/' + $('#newPassword').val()).done(function (data) {
+      $.get('/reset-my-password/' + $('#id').html() + '/' + $('#newPassword').val()).done(function (data) {
         if (data.done === 'success')
           $('#reset-button').html('<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>&nbsp; Password changed, redirect...');
         $(location).attr('href', '/');
