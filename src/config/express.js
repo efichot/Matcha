@@ -29,7 +29,7 @@ app
   .use(session({
     secret: 'matcha',
     resave: false,
-    saveUninitialized: true
+    saveUninitialized: true,
   }));
 
 app

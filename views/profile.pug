@@ -1,1 +1,75 @@
-h1 kek
+extends layout/layout
+
+block content
+  .container-fluid.matcha-profile
+    .profile-header
+      .header-picture(style="background-image : url('#{user.photos.cover}');")
+        span#btn-cover.btn.btn-warning.btn-sm.btn-file
+          span.glyphicon.glyphicon-picture(aria-hidden='true')
+          |   Change cover 
+          input(type='file')
+
+  .profile-picture
+    #profile-pic.profile.img-circle(style="background-image : url('#{user.photos.profile}');")
+  .main-infos
+    h2#first-last
+      span#user-first #{user.info.firstname}
+      span#user-last  #{user.info.lastname}
+      button#edit-first-last.btn.btn-warning.btn-xs(type='button')
+        span.glyphicon.glyphicon-pencil(aria-hidden='true')
+        |  Edit
+    form#form-first-last.hidden
+      .input-group.input-group-sm
+        input#first-input.form-control.form-dual(type='text', value='#{user.info.firstname}', placeholder='First Name')
+        input#last-input.form-control.form-dual(type='text', value='#{user.info.lastname}', placeholder='Last Name')
+        span.input-group-btn
+          button#change-first-last.btn.btn-warning(type='button') Change
+      // /input-group
+    h5#mail.text-muted
+      span.glyphicon.glyphicon-envelope(aria-hidden='true')
+      span#user-mail #{user.account.mail}
+      button#edit-mail.btn.btn-warning.btn-xs(type='button')
+        span.glyphicon.glyphicon-pencil(aria-hidden='true')
+        |  Edit
+    form#form-mail.hidden
+      .input-group.input-group-sm
+        input#mail-input.form-control(type='text', value='#{user.account.mail}', placeholder='Mail')
+        span.input-group-btn
+          button#change-mail.btn.btn-warning(type='button') Change
+      // /input-group
+
+    ul.nav.nav-tabs.menu-profile
+      li.active(role='presentation')
+        a(href='#About') About
+      li(role='presentation')
+        a(href='#Photos') Photos
+      li(role='presentation')
+        a(href='#Reports') Reported users
+  
+  #tab-about.row.profile-timeline.tab-menu
+    .col-md-5.about-me
+      .btn-group.actions(role='group', aria-label='...')
+        button.btn.btn-default.disabled(type='button')
+          span.glyphicon.glyphicon-heart-empty(aria-hidden='true')
+          span.badge #{ likes }
+        a.btn.btn-default(href='/user/#{user._id}', role='button')
+          span.glyphicon.glyphicon-user(aria-hidden='true')
+        button.btn.btn-default.disabled(type='button')
+          span.glyphicon.glyphicon-trash(aria-hidden='true')
+    
+      .panel.panel-warning
+        .panel-heading
+          h3.panel-title Biography
+          button#btn-edit-bio.btn.btn-warning.btn-xs(type='button')
+            span.glyphicon.glyphicon-pencil(aria-hidden='true')
+            |  Edit
+        .panel-body
+          #bio-area-edit.form-group.hidden
+            textarea#textarea-bio.form-control(rows='5') #{user.infos.biography}
+            button#bio-area-button.btn.btn-warning.btn-sm(type='button')
+              span.glyphicon.glyphicon-pencil(aria-hidden='true')
+              |  Submit my new biography
+          span#span-bio #{user.infos.biography}
+
+        
+    

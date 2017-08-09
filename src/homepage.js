@@ -64,7 +64,7 @@ const connectUser = (req, res, next) => {
     } else {
       req.session.username = user.account.username;
       req.session.firstname = user.account.firstname;
-      req.sessionuserId = user._id;
+      req.session.userID = user._id;
       resLog(res, `User ${username} found. Access granted !`, { redirect: '/profile' });
     }
   })
