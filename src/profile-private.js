@@ -24,6 +24,25 @@ const renderProfile = (req, res, next) => {
       };
       _.set(user, 'photos', photos);
 
+      const interests = ['read'];
+
+      _.set(user, 'interests', interests);
+      
+      const reports = [1, 1, 1];
+
+      _.set(user, 'reports', reports);
+
+      const likes = [1,1];
+
+      _.set(user, 'likes', likes); 
+
+      const location = {
+        longitude: 0,
+        latitude: 0,
+      }
+
+      _.set(user, 'location', location);       
+
       res.render('profile', {
         isNotHome: true,
         navProfile: true,
@@ -32,8 +51,8 @@ const renderProfile = (req, res, next) => {
         user,
         login: _.capitalize(user.info.firstname),
         age: getAge(user.info.birthdate),
-        // likes: user.likes.length,
-        // reports: user.reports.length,
+        likes: user.likes.length,
+        reports: user.reports.length,
       });
     }
   });

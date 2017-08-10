@@ -40,6 +40,7 @@
     "eonasdan-bootstrap-datetimepicker": "^4.17.47",
     "express": "^4.14.0",
     "express-session": "^1.15.5",
+    "gmaps": "^0.4.24",
     "helmet": "^3.4.0",
     "lodash": "^4.14.1",
     "mhash": "^2.1.6",
