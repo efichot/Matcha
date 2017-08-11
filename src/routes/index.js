@@ -13,5 +13,7 @@ router.get('/reset-my-password/:id/:password', home.setNewPassword);
 
 router.get('/profile', profile.renderProfile);
 
+router.get('/set/connection', profile.setLastConnection);
+
 export default router
 
