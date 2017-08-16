@@ -1,3 +1,4 @@
+const userID = $('.actions a').attr('href').split('/')[2];
 const geoMap = $('#geo-map');
 const lat = geoMap.data('latitude');
 const lng = geoMap.data('longitude');
@@ -19,4 +20,21 @@ $(document).ready(() => {
         const url = initStaticMap(lat, lng);
         geoMap.attr('src', url).removeClass('hidden');
     }
+
+    if (parseInt($('#like .badge').html(), 10) > 0) {
+        $('#like glyphicon').removeClass('glyphicon-heart-empty').addClass('glyphicon-heart');
+    }
+
+    $.get(`/user/new/visit/${userID}`).done((data) => {
+        if (data.done === 'success') {
+            console.log('new visitor add');
+        }
+        if (data.done == 'already') {
+            console.log('you have already seen this profile before');
+        }
+    })
+
+    $.get(`/user/get/visits/${userID}`).done((data) => {
+        
+    })
 })

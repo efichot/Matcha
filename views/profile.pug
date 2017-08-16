@@ -49,7 +49,7 @@ block content
   #tab-about.row.profile-timeline.tab-menu
     .col-md-5.about-me
       .btn-group.actions(role='group', aria-label='...')
-        button.btn.btn-default.disabled(type='button')
+        button#like.btn.btn-default.disabled(type='button')
           span.glyphicon.glyphicon-heart-empty(aria-hidden='true')
           span.badge #{ likes }
         a.btn.btn-default(href='/user/' + user._id, role='button')
