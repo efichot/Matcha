@@ -35,6 +35,30 @@ $(document).ready(() => {
     })
 
     $.get(`/user/get/visits/${userID}`).done((data) => {
+        if (data.done === 'success') {
+            $.each(data.visits, (v, i) => {
+                $('#visit' + i + ' .img').css('background-image', 'url(' + v.photo + ')');
+                $('#visit' + i + ' h5').html(v.firstname);
+                $('#visit' + i + ' .location').html(v.location);
+                $('#visit' + i + ' a').attr('href', '/user/' + v.id);
+                $('#visit' + i).removeClass('hidden');
+            })
+        }
+    })
+
+    $.get(`/user/get/likes/${userID}`).done((data) => {
+        if (data.done === 'success') {
+            $.each(data.likes, (v, i) => {
+                $('#like' + i + ' .img').css('background-image', 'url(' + v.photo + ')');
+                $('#like' + i + ' h5').html(v.firstname);
+                $('#like' + i + ' .location').html(v.location);
+                $('#like' + i + ' a').attr('href', '/user/' + v.id);
+                $('#like' + i).removeClass('hidden');
+            })
+        }
+    })
+
+    $.get(`/popularity/${userID}`).done((data) => {
         
     })
 })
