@@ -59,6 +59,38 @@ $(document).ready(() => {
     })
 
     $.get(`/popularity/${userID}`).done((data) => {
-        
+        if (data.done === 'success' && typeof data.score !== 'undefined') {
+            $('#popularity').html(data.score + '%');
+        }
+    });
+
+    function protectEntry(message) {
+        message = message.replace(/&/g, '&amp;');
+        message = message.replace(/</g, '&lt;');
+        message = message.replace(/>/g, '&gt;');
+        return message;
+    }
+
+    $('#update-location').on('click', () => {
+        $('$span-location').html('Please wait while we are fetching data ...');
+        $('#update-location').attr('disabled', true);
+        $.geolocation.get().done((position) => {
+            console.log('geolocation enabled');
+            $.post('/location', position.coords).done((data) => {
+                console.log(data.address);
+                $('#span-location').html(data.address);
+                $('#update-location').removeAttr('disabled');
+                const url = initStaticMap(position.coords.latitude, position.coords.longitude);
+                geoMap.attr('src', url).removeClass('hidden');
+            })
+        }).fail(() => {
+            console.log('geolocation disabled');
+            $.get('/location').done((data) => {
+                $('#span-location').html(`${data.city}, ${data.country}`);
+                $('#update-location').removeAttr('disabled');
+                const url = initStaticMap(data.latitude, data.longitude);
+                geoMap.attr('src', url).removeClass('hidden');
+            })
+        })
     })
 })

@@ -13,6 +13,8 @@ router.get('/reset-password/:username/:password', home.resetPassword);
 router.get('/reset-my-password/:id/:password', home.setNewPassword);
 
 router.get('/profile', profile.renderProfile);
+router.post('/location', profile.getLocation);
+router.get('/location', profile.getCity);
 
 router.get('/user/new/visit/:id', user.addVisitor);
 router.get('/user/get/visits/:id', user.getVisitors);

@@ -3,6 +3,82 @@ import { log } from 'console';
 import _ from 'lodash';
 import { getAge } from './lib';
 import geoLib from 'geolib';
+import { satelize } from 'satelize';
+
+const geoCoder = require('node-geocoder')('google');
+const getIP = require('external-ip')();
+
+const getCity = (req, res, next) => {
+  const { username } = req.session;
+  const paris = {
+    lat: 48.866667,
+    lon: 2.333333,
+  }
+
+  getIP((err, ip) => {
+    satelize({ ip }, (err, payload) => {
+      if (err) return res.end();
+
+      geoCoder.reverse({
+        lat: payload.latitude || paris.lat,
+        lon: payload.longitude || paris.lon,
+      }, (err, loc) => {
+        if (err) return res.end();
+
+        res.send({
+          city: loc[0].city || 'Paris',
+          country: loc[0].country || 'France',
+          latitude: payload.latitude || paris,lat,
+          longitude: payload.longitude || paris.lon,
+        })
+      });
+
+      mongoConnectAsync(res, async (Users) => {
+        Users.updateOne({ 'account.usernaem': username }, {
+          $set: {
+            location: {
+              country: loc[0].country,
+              city: loc[0].city,
+              latitude: payload.latitude || paris, lat,
+              longitude: payload.longitude || paris.lon,
+            }
+          }
+        }, (err) => {
+          if(!err) log('Location updated');
+        })
+      })
+      return true;
+    })
+    return true;
+  })
+}
+
+const getLocation = (req, res, next) => {
+  const { username } = req.session;
+
+  geoCoder.reverse({
+    lat: req.body.latitude,
+    lon: req.body.longitude,
+  }), (err, loc) => {
+    res.send({ address: loc[0].formattedAddress });
+
+    mongoConnectAsync(res, async(Users) => {
+      Users.updateOne({ 'account.username': username }, {
+        $set: {
+          location: {
+            country: loc[0].country,
+            city: loc[0].city,
+            address: loc[0].formattedAddress,
+            latitude: req.body.latitude,
+            longitude: req.body.longitude,
+          },
+        },
+      }, (err) => {
+        if (!err) log('Location updated');
+      });
+    })
+  }
+}
 
 const setLastConnection = (req, res, next) => {
   const { username } = req.session;
@@ -81,4 +157,6 @@ const renderProfile = (req, res, next) => {
 export default {
   renderProfile,
   setLastConnection,
+  getLocation,
+  getCity,
 }
