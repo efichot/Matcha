@@ -8,6 +8,40 @@ import { satelize } from 'satelize';
 const geoCoder = require('node-geocoder')('google');
 const getIP = require('external-ip')();
 
+const updateSex = (req, res, next) => {
+  const { sex } = req.body;
+  const { username } = req.session;
+
+  mongoConnectAsync(res, async (Users) => {
+    if (sex === 'Male' || sex === 'Female' || sex === 'Other') {
+      Users.updateOne({ 'account.username': username }, {
+        $set: {
+          'info.sex': sex,
+        },
+      }, (err) => {
+        if (!err) res.send({ done: 'success' });
+        else res.send({ data: 'fail' });
+      })
+    } else res.send({ data: 'fail' });
+  })
+}
+
+const updateMail = (req, res, next) => {
+  const { username } = req.session;
+  const { mail } = req.body;
+
+  mongoConnectAsync(res, async (Users) => {
+    Users.updateOne({ 'accouont.username': username }, {
+      $set: {
+        'account.mail': mail,
+      },
+    }, (err) => {
+      if (!err) res.send({ done: 'success' });
+      else res.send({ done: 'fail' });
+    });
+  })
+}
+
 const updateName = (req, res, next) => {
   const { username } = req.session;
   const { info } = req.body;
@@ -193,4 +227,6 @@ export default {
   getCity,
   updateBiography,
   updateName,
+  updateMail,
+  updateSex,
 }

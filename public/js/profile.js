@@ -181,5 +181,37 @@ $(document).ready(() => {
         $('#form-mail').removeClass('hidden');
     });
 
-    
+    $('#change-mail').on('click', () => {
+        const mail = protectEntry($('#mail-input').val());
+
+        if (validateMail(mail)) {
+            $.post('/mail/update', mail).done((data) => {
+                if (data.done === 'success') {
+                    $('#user-mail').html(mail);
+                    $('#form-mail').addClass('hidden');
+                    $('#mail').removeClass('hidden');
+                } else {
+                    $('#form-mail').addClass('has-error');
+                }
+            })
+        } else {
+            $('#form-mail').addClass('has-error');
+        }
+    });
+
+    $('#edit-sex').on('click', () => {
+        $('#sex').addClass('hidden');
+        $('#form-sex').removeClass('hidden');
+    });
+
+    $('#select-sex').on('click', () => {
+        if ($('.gender-input:checked').val()) {
+            const data = { sex: $('.gender-input:checked').val() };
+            if (data.sex === 'Male' || data.sex === 'Female' || data.sex === 'Other') {
+                $.post('/sex/update', data).done((data) => {
+                    
+                })
+            }
+        }
+    })
 })
