@@ -15,6 +15,8 @@ router.get('/reset-my-password/:id/:password', home.setNewPassword);
 router.get('/profile', profile.renderProfile);
 router.post('/location', profile.getLocation);
 router.get('/location', profile.getCity);
+router.post('/biography/update', profile.updateBiography);
+router.post('/name/update', profile.updateName);
 
 router.get('/user/new/visit/:id', user.addVisitor);
 router.get('/user/get/visits/:id', user.getVisitors);
