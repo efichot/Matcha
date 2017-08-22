@@ -21,7 +21,12 @@ router.post('/mail/update', profile.updateMail);
 router.post('/sex/update', profile.updateSex);
 router.post('/orientation/update', profile.updateOrientation);
 router.post('/interest/delete', profile.deleteInterest);
-router.get('/interests/list', profile.getInterests)
+router.get('/interests/list', profile.getInterests);
+router.post('/interest/add', profile.addInterests);
+router.post('/cover/upload', profile.addCover);
+router.post('/cover/upload', profile.uploadPhoto);
+router.get('/photo/set/:index', profile.setProfile);
+router.get('/photo/delete/:index', profile.deletePhoto)
 
 router.get('/user/new/visit/:id', user.addVisitor);
 router.get('/user/get/visits/:id', user.getVisitors);

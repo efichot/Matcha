@@ -70,216 +70,326 @@ $(document).ready(() => {
         message = message.replace(/>/g, '&gt;');
         return message;
     }
+});
 
-    $('#update-location').on('click', () => {
-        $('$span-location').html('Please wait while we are fetching data ...');
-        $('#update-location').attr('disabled', true);
-        $.geolocation.get().done((position) => {
-            console.log('geolocation enabled');
-            $.post('/location', position.coords).done((data) => {
-                console.log(data.address);
-                $('#span-location').html(data.address);
-                $('#update-location').removeAttr('disabled');
-                const url = initStaticMap(position.coords.latitude, position.coords.longitude);
-                geoMap.attr('src', url).removeClass('hidden');
-            })
-        }).fail(() => {
-            console.log('geolocation disabled');
-            $.get('/location').done((data) => {
-                $('#span-location').html(`${data.city}, ${data.country}`);
-                $('#update-location').removeAttr('disabled');
-                const url = initStaticMap(data.latitude, data.longitude);
-                geoMap.attr('src', url).removeClass('hidden');
-            });
+$('#update-location').on('click', () => {
+    $('$span-location').html('Please wait while we are fetching data ...');
+    $('#update-location').attr('disabled', true);
+    $.geolocation.get().done((position) => {
+        console.log('geolocation enabled');
+        $.post('/location', position.coords).done((data) => {
+            console.log(data.address);
+            $('#span-location').html(data.address);
+            $('#update-location').removeAttr('disabled');
+            const url = initStaticMap(position.coords.latitude, position.coords.longitude);
+            geoMap.attr('src', url).removeClass('hidden');
+        })
+    }).fail(() => {
+        console.log('geolocation disabled');
+        $.get('/location').done((data) => {
+            $('#span-location').html(`${data.city}, ${data.country}`);
+            $('#update-location').removeAttr('disabled');
+            const url = initStaticMap(data.latitude, data.longitude);
+            geoMap.attr('src', url).removeClass('hidden');
         });
     });
+});
 
-    $('.thumbnail').on({
-        'mouseover': function() {
-            $(this).find('.img').css({
-                'filter': 'graysale(1) brightness(0.8)',
-                '-webkit-filter': 'graysale(1) brightness(0.8)',
-                '-moz-filter': 'graysale(1) brightness(0.8)',
-                '-o-filter': 'graysale(1) brightness(0.8)',
-                '-ms-filter': 'graysale(1) brightness(0.8)',                
-            })
-        },
-        'mouseout': function() {
-            $(this).find('.img').css({
-                'filter': 'graysale(0) brightness(1)',
-                '-webkit-filter': 'graysale(0) brightness(1)',
-                '-moz-filter': 'graysale(0) brightness(1)',
-                '-o-filter': 'graysale(0) brightness(1)',
-                '-ms-filter': 'graysale(0) brightness(1)',
-            })
+$('.thumbnail').on({
+    'mouseover': function() {
+        $(this).find('.img').css({
+            'filter': 'graysale(1) brightness(0.8)',
+            '-webkit-filter': 'graysale(1) brightness(0.8)',
+            '-moz-filter': 'graysale(1) brightness(0.8)',
+            '-o-filter': 'graysale(1) brightness(0.8)',
+            '-ms-filter': 'graysale(1) brightness(0.8)',                
+        })
+    },
+    'mouseout': function() {
+        $(this).find('.img').css({
+            'filter': 'graysale(0) brightness(1)',
+            '-webkit-filter': 'graysale(0) brightness(1)',
+            '-moz-filter': 'graysale(0) brightness(1)',
+            '-o-filter': 'graysale(0) brightness(1)',
+            '-ms-filter': 'graysale(0) brightness(1)',
+        })
+    }
+});
+
+$('#btn-edit-bio').on('click', function() {
+    $(this).addClass('hidden');
+    $('#span-bio').addClass('hidden');
+    $('#bio-area-edit').removeClass('hidden');
+});
+
+$('#bio-area-button').on('click', function() {
+    const biography = protectEntry($('#textarea-bio').val());
+
+    $.post('/biography/update', { biography }).done((data) => {
+        if (data.done === 'success') {
+            $('#bio-area-edit').addClass('hidden');
+            $('#btn-edit-bio').removeClass('hidden');
+            $('#span-bio').html(biography).removeClass('hidden');        
         }
-    });
+    }).fail(() => {
+        console.log('post error');
+    })
+})
 
-    $('#btn-edit-bio').on('click', function() {
-        $(this).addClass('hidden');
-        $('#span-bio').addClass('hidden');
-        $('#bio-area-edit').removeClass('hidden');
-    });
+function validateUser(name) {
+    const regex = /^([a-zA-Z\-0-9èêéàôîïùñ]{2,17})$/;
+    return regex.test(name);
+}
 
-    $('#bio-area-button').on('click', function() {
-        const biography = protectEntry($('#textarea-bio').val());
+function validateEmail(email) {
+    const regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return regex.test(email);
+}
 
-        $.post('/biography/update', { biography }).done((data) => {
+$('#edit-first-last').on('click', () => {
+    $('#first-last').addClass('hidden');
+    $('#form-firts-last').removeClass('hidden');
+});
+
+$('#change-first-last').on('click', () => {
+    const info = {
+        fistname: protectEntry($('#first-input').val()),
+        lastname: protectEntry($('#last-input').val()),
+    }
+    if (validateUser(info.firstname) && validateUser(info.lastname)) {
+        $.post('/name/update', info).done((data) => {
             if (data.done === 'success') {
-                $('#bio-area-edit').addClass('hidden');
-                $('#btn-edit-bio').removeClass('hidden');
-                $('#span-bio').html(biography).removeClass('hidden');        
+                $('#user-first').html(info.firstname);
+                $('#user-last').html(info.lastname);
+                $('#form-first-last').addClass('hidden');
+                $('#first-last').removeClass('hidden');
+            } else {
+                $('#form-first-last').addClass('has-error');
             }
-        }).fail(() => {
-            console.log('post error');
-        })
-    })
-
-    function validateUser(name) {
-        const regex = /^([a-zA-Z\-0-9èêéàôîïùñ]{2,17})$/;
-        return regex.test(name);
-    }
-
-    function validateEmail(email) {
-        const regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        return regex.test(email);
-    }
-
-    $('#edit-first-last').on('click', () => {
-        $('#first-last').addClass('hidden');
-        $('#form-firts-last').removeClass('hidden');
-    });
-
-    $('#change-first-last').on('click', () => {
-        const info = {
-            fistname: protectEntry($('#first-input').val()),
-            lastname: protectEntry($('#last-input').val()),
-        }
-        if (validateUser(info.firstname) && validateUser(info.lastname)) {
-            $.post('/name/update', info).done((data) => {
-                if (data.done === 'success') {
-                    $('#user-first').html(info.firstname);
-                    $('#user-last').html(info.lastname);
-                    $('#form-first-last').addClass('hidden');
-                    $('#first-last').removeClass('hidden');
-                } else {
-                    $('#form-first-last').addClass('has-error');
-                }
-            }).fail((err) => {
-                if (err) {
-                    $('#form-first-last').addClass('has-error');
-                }
-            })
-            
-        } else {
-            $('#form-first-last').addClass('has-error');
-        }
-    });
-
-    $('#edit-mail').on('click', () => {
-        $('#mail').addClass('hidden');
-        $('#form-mail').removeClass('hidden');
-    });
-
-    $('#change-mail').on('click', () => {
-        const mail = protectEntry($('#mail-input').val());
-
-        if (validateMail(mail)) {
-            $.post('/mail/update', mail).done((data) => {
-                if (data.done === 'success') {
-                    $('#user-mail').html(mail);
-                    $('#form-mail').addClass('hidden');
-                    $('#mail').removeClass('hidden');
-                } else {
-                    $('#form-mail').addClass('has-error');
-                }
-            })
-        } else {
-            $('#form-mail').addClass('has-error');
-        }
-    });
-
-    $('#edit-sex').on('click', () => {
-        $('#sex').addClass('hidden');
-        $('#form-sex').removeClass('hidden');
-    });
-
-    $('#select-sex').on('click', () => {
-        if ($('.gender-input:checked').val()) {
-            const data = { sex: $('.gender-input:checked').val() };
-            if (data.sex === 'Male' || data.sex === 'Female' || data.sex === 'Other') {
-                $.post('/sex/update', data).done((data) => {
-                    if (data.done === 'success') {
-                        $('#span-sex').html($('#.gender-input:checked').val());
-                        $('#form-sex').addClass('hidden');
-                        $('#sex').removeCLass('hidden');
-                    }
-                })
-            }
-        }
-    })
-
-    $('#edit-orientation').on('click', () => {
-        $('#orientation').addClass('hidden');
-        $('#form-orientation').removeClass('hidden');
-    });
-
-    $('#select-orientation').on('click', () => {
-        if ($('.orientation-input:checked').val()) {
-            const data = { orientation: $('.orientation-input:checked').val() };
-            if (data.orientation === 'Straight' || data.orientation === 'Gay' || data.orientation === 'Bisexual') {
-                $.post('/orientation/update', data).done((data) => {
-                    if (data.done === 'success') {
-                        $('#span-orientation').html($('#.gender-input:checked').val());
-                        $('#form-orientation').addClass('hidden');
-                        $('#orientation').removeCLass('hidden');
-                    }
-                })
-            }
-        }
-    })
-
-    const supprTag = () => {
-        $('.btn-tag').on({
-            'mouseover': function() {
-                $(this).find('span-glyphicon')
-                    .removeClass('glyphicon-tag')
-                    .addClass('glyphicon-minus-sign');
-            }, 'mouseout': function () {
-                $(this).find('span-glyphicon')
-                    .removeClass('glyphicon-minus-sign')
-                    .addClass('glyphicon-tag');
-            }, 'click': function () {
-                const current = $(this);
-                $.post('/interest/delete', { delete: current.find('.span-interest').html() }).done((data) => {
-                    if (data.done === 'success')
-                        current.remove();
-                });
+        }).fail((err) => {
+            if (err) {
+                $('#form-first-last').addClass('has-error');
             }
         })
+        
+    } else {
+        $('#form-first-last').addClass('has-error');
     }
+});
 
-    supprTag();
+$('#edit-mail').on('click', () => {
+    $('#mail').addClass('hidden');
+    $('#form-mail').removeClass('hidden');
+});
 
-    function prepareInterests(interests) {
-        let toPrint = '';
-        $.each(interests, (v, i) => {
-            toPrint += '<button type="button" class="btn btn-warning btn-xs btn-tag"><span class="glyphicon glyphicon-tag" aria-hidden="true"></span><span class="span-interest">' + v + '</span></button>';
+$('#change-mail').on('click', () => {
+    const mail = protectEntry($('#mail-input').val());
+
+    if (validateMail(mail)) {
+        $.post('/mail/update', mail).done((data) => {
+            if (data.done === 'success') {
+                $('#user-mail').html(mail);
+                $('#form-mail').addClass('hidden');
+                $('#mail').removeClass('hidden');
+            } else {
+                $('#form-mail').addClass('has-error');
+            }
+        })
+    } else {
+        $('#form-mail').addClass('has-error');
+    }
+});
+
+$('#edit-sex').on('click', () => {
+    $('#sex').addClass('hidden');
+    $('#form-sex').removeClass('hidden');
+});
+
+$('#select-sex').on('click', () => {
+    if ($('.gender-input:checked').val()) {
+        const data = { sex: $('.gender-input:checked').val() };
+        if (data.sex === 'Male' || data.sex === 'Female' || data.sex === 'Other') {
+            $.post('/sex/update', data).done((data) => {
+                if (data.done === 'success') {
+                    $('#span-sex').html($('#.gender-input:checked').val());
+                    $('#form-sex').addClass('hidden');
+                    $('#sex').removeCLass('hidden');
+                }
+            })
+        }
+    }
+})
+
+$('#edit-orientation').on('click', () => {
+    $('#orientation').addClass('hidden');
+    $('#form-orientation').removeClass('hidden');
+});
+
+$('#select-orientation').on('click', () => {
+    if ($('.orientation-input:checked').val()) {
+        const data = { orientation: $('.orientation-input:checked').val() };
+        if (data.orientation === 'Straight' || data.orientation === 'Gay' || data.orientation === 'Bisexual') {
+            $.post('/orientation/update', data).done((data) => {
+                if (data.done === 'success') {
+                    $('#span-orientation').html($('#.gender-input:checked').val());
+                    $('#form-orientation').addClass('hidden');
+                    $('#orientation').removeCLass('hidden');
+                }
+            })
+        }
+    }
+})
+
+const supprTag = () => {
+    $('.btn-tag').on({
+        'mouseover': function() {
+            $(this).find('span-glyphicon')
+                .removeClass('glyphicon-tag')
+                .addClass('glyphicon-minus-sign');
+        }, 'mouseout': function () {
+            $(this).find('span-glyphicon')
+                .removeClass('glyphicon-minus-sign')
+                .addClass('glyphicon-tag');
+        }, 'click': function () {
+            const current = $(this);
+            $.post('/interest/delete', { delete: current.find('.span-interest').html() }).done((data) => {
+                if (data.done === 'success')
+                    current.remove();
+            });
+        }
+    })
+}
+
+supprTag();
+
+function prepareInterests(interests) {
+    let toPrint = '';
+    $.each(interests, (i, v) => {
+        toPrint += '<button type="button" class="btn btn-warning btn-xs btn-tag"><span class="glyphicon glyphicon-tag" aria-hidden="true"></span><span class="span-interest">' + v + '</span></button>';
+    });
+    return toPrint;
+}
+
+function validateInterest(interest) {
+    const regex = /^([a-zA-Z\-]{1,17})$/;
+    return  regex.test(interest);
+}
+
+$('#add-interest').on('click', function() {
+    $('.input-interest').val('');
+    $(this).addClass('hidden');
+    $('#form-interests').removeClass('hidden');
+    $.get('/interests/list').done((data) => {
+        $('#list-interests').empty();
+        $.each(data.list, (i, v) => {
+            $('#list-interests').append(`<option value="${v}">`);
+        })
+    })
+})
+
+$('#new-interest').on('click', () => {
+    if ($('.input-interest').val() && validateInterest(protectEntry($('.input-interest').val()))) {
+        $('#form-interests').removeClass('has-error');
+        const data = {
+            newInterest: protectEntry($('.input-interest').val()),
+        }
+        $.post('/interest/add', data).done((data) => {
+            if (data.done === 'success') {
+                $('#interests').empty().html(prepareInterests(data.interests));
+                supprTag();
+                $('#add-interest').removeClass('hidden');
+                $('#form-interests').addClass('hidden');
+            } else {
+                $('#form-interests').addClass('has-error');
+            }
         });
-        return toPrint;
+    } else {
+        $('#form-interests').addClass('has-error');            
     }
+});
 
-    function validateInterest(interest) {
-        const regex = /^([a-zA-Z\-]{1,17})$/;
-        return  regex.test(interest);
+const allowedTypes = ['png', 'jpg', 'jpeg', 'gif'];
+
+$('#btn-cover: file').on('change', (e) => {
+    if (e.target.files.length) {
+        const fileType = e.target.files[0].name.split('.').pop().toLowerCase();
+
+        if (allowedTypes.indexOf(fileType) > 0) {
+            const file = e.target.files[0],
+                reader = new FileReader();
+
+            $(reader).on('load', () => {
+                $.post('/cover/upload', { cover: reader.result })
+                    .done((data) => {
+                        if (data.done === 'success')
+                            $('.header-picture').css('background-image', 'url("' + reader.result + '")');
+                    })
+            });
+            reader.readAsDataURL(file);
+        }
     }
+});
 
-    $('#add-interest').on('click', function() {
-        $('.input-interest').val('');
-        $(this).addClass('hidden');
-        $('$form-interests').removeClass('hidden');
-        $.get('/interests/list').done((data) => {
-            
-        })
-    })    
+$('.change-photo :file').on('change', function (e) {
+    if (e.target.files.length) {
+        const fileType = e.target.files[0].name.split('.').pop().toLowerCase(),
+            indexPhoto = $(this).data('index');
+
+        if (allowedTypes.indexOf(fileType) > 0) {
+            const file = e.target.files[0],
+                reader = new FileReader();
+
+            $(reader).on('load', () => {
+                $.post('/photo/upload', {
+                    photo: reader.result,
+                    index: indexPhoto,
+                })
+                    .done((data) => {
+                        if (data.done === 'success')
+                            $(`#${imgIndex} .img`).css('background-image', `url(${reader.result})`)
+                    })
+            });
+            reader.readAsDataURL(file);
+        }
+    }
+});
+
+$('#make-default').on('click', () => {
+    const imgIndex = $(this).data('index');
+
+    $.get('/photo/set' + imgIndex)
+        .done((data) => {
+            if (data.done === 'success') {
+                $('#profile-pic').css('backgroung-image', `url(${data.photo})`);
+            }
+        });
+});
+
+$('.delete-photo').on('click', () => {
+    const imgIndex = $(this).data('index');
+
+    $.get(`/photo/delete/${imgIndex}`)
+        .done((data) => {
+            if (data.done === 'success') {
+                $(`#${imgIndex} .img`).css('background-image', `url("http://fakeimg.pl/300x300/")`);
+            } else {
+                console.log(data.fail);
+            }
+        });
+});
+
+$('.menu-profile li a').on('click', function() {
+    if ($(this).html() === 'About') {
+        $('.tab-menu').addClass('hidden');
+        $('#tab-about').removeClass('hidden');
+        $('.menu-profile li').removeClass('active');
+    } else if ($(this).html() === 'Photos') {
+        $('.tab-menu').addClass('hidden');
+        $('#tab-photos').removeClass('hidden');
+        $('.menu-profile li').removeClass('active');
+    } else if ($(this).html() === 'Reported users') {
+        $('.tab-menu').addClass('hidden');
+        $('#tab-report').removeClass('hidden');
+        $('.menu-profile li').removeClass('active');
+    }
 })

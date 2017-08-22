@@ -8,8 +8,127 @@ import { satelize } from 'satelize';
 const geoCoder = require('node-geocoder')('google');
 const getIP = require('external-ip')();
 
+const deletePhoto = (req, res, next) => {
+  const { username } = req.session;
+  const { index } = parseInt(req.params) || -1;
+
+  mongoConnectAsync(res, async (Users) => {
+    const user = await Users.findOne({ 'account.username': username });
+    const key = `photos.photo${index}`;
+    const myObj = {
+      key: 'http://fakeimg.pl/300x300/',
+      'account.hasProfilePicture': false,
+    }
+
+    if (user) {
+      Users.updateOne({ 'account.username': username }, {
+        $set: {
+          myObj,
+        },
+      }, (err) => {
+        if (!err) res.send({ done: 'success' });
+        else res.send({ done: `no photo to delete in index ${index}` });
+      })
+    } else res.send({ done: `no photo to delete in index ${index}` });
+  })
+}
+
+const setProfile = (req, res, next) => {
+  const { username } = req.session;
+  const { index } = parseInt(req.params) || -1;
+
+  mongoConnectAsync(res, async (Users) => {
+    const user = await Users.findOne({ 'account.username': username });
+    const key = `photo${index}`;
+
+    if (user) {
+      Users.updateOne({ 'account.username': username }, {
+        $set: {
+          'photos.profile': user.photos[key],
+          'account.hasProfilePicture': true,
+        },
+      }, (err) => {
+        if (!err) res.send({ done: 'success' });
+        else res.send({ done: 'fail' });
+      })
+    } else res.send({ done: 'fail' });
+  })
+}
+
+const uploadPhoto = (req, res, next) => {
+  const { username } = req.session;
+  const { photo, index } = req.body;
+  let myObj = {};
+  _.set(myObj, `photos.photo${index}`, photo);
+
+  mongoConnectAsync(res, async (Users) => {
+    Users.updateOne({ 'account.username': username }, {
+      $set: {
+        myObj,
+      },
+    }, (err) => {
+      if (!err) res.send({ done: 'success' });
+      else res.send({ done: 'fail' });
+    });
+  })
+}
+
+const addCover = (req, res, next) => {
+  const { username } = req.session;
+  const { cover } = req.body;
+
+  mongoConnectAsync(res, async (Users) => {
+    Users.updateOne({ 'account.username': username }, {
+      $set: {
+        'photo.cover': cover,
+      },
+    }, (err) => {
+      if (!err) res.send({ done: 'success' });
+      else res.send({ done: 'fail' });
+    });
+  })
+}
+
+const addInterests = (req, res, next) => {
+  const { newInterest } = req.body;
+  const { username } = req.session;
+
+  mongoConnectAsync(res, async (Users) => {
+    const user = await Users.findOne({ 'account.username': username });
+    if (!user) res.send({ done: 'fail' });
+    if (user) {
+      const interests = user.interests || [];
+      if (interests.indexOf(newInterest) < 0) {
+        interests.push(newInterest);
+        Users.updateOne({ 'account.username': username }, {
+          $set: {
+            interests,
+          }
+        }, (err) => {
+          if (!err) res.send({ done: 'success' });
+          else res.send({ done: 'fail' });
+        })
+      } else {
+        res.send({ done: 'fail' });
+      }
+    }
+  })
+}
+
 const getInterests = (req, res, next) => {
-  
+  mongoConnectAsync(res, async (Users) => {
+    const request = await Users.find({}, { interests: 1 });
+    let tab = [];
+
+    request.forEach((v, i) => {
+      if (!_.isUndefined(v.interests)) {
+        v.interests.forEach((v2, i2) => {
+          tab.push(v2);
+        });
+      }
+    });
+    res.send({ list: _.uniq(tab) });
+  })
 }
 
 const deleteInterest = (req, res, next) => {
@@ -78,7 +197,7 @@ const updateMail = (req, res, next) => {
   const { mail } = req.body;
 
   mongoConnectAsync(res, async (Users) => {
-    Users.updateOne({ 'accouont.username': username }, {
+    Users.updateOne({ 'account.username': username }, {
       $set: {
         'account.mail': mail,
       },
@@ -281,4 +400,8 @@ export default {
   updateOrientation,
   deleteInterest,
   getInterests,
+  addInterests,
+  addCover,
+  uploadPhoto,
+  deletePhoto,
 }
