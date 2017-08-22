@@ -8,6 +8,53 @@ import { satelize } from 'satelize';
 const geoCoder = require('node-geocoder')('google');
 const getIP = require('external-ip')();
 
+const getInterests = (req, res, next) => {
+  
+}
+
+const deleteInterest = (req, res, next) => {
+  const { toDelete } = req.body;
+  const { username } = req.session;
+
+  mongoConnectAsync(res, async (Users) => {
+    const user = await Users.findOne({ 'account.username': username });
+
+    if (user && user.interests) {
+      const indexToDelete = user.interests.indexOf(toDelete);
+      if (indexToDelete > -1) {
+        user.interest.splice(indexToDelete, 1);
+
+        Users.updateOne({ 'account.username': username }, {
+          $set: {
+            interests: user.interests,
+          },
+        }, (err) => {
+          if (!err) res.send({ done: 'success' });
+          else res.send({ data: 'fail' });
+        })
+      }
+    }
+  })
+};
+
+const updateOrientation = (req, res, next) => {
+  const { orientation } = req.body;
+  const { username } = req.session;
+
+  mongoConnectAsync(res, async (Users) => {
+    if (orientation === 'Straight' || orientation === 'Gay' || orientation === 'Bisexual') {
+      Users.updateOne({ 'account.username': username }, {
+        $set: {
+          'info.orientation': orientation,
+        },
+      }, (err) => {
+        if (!err) res.send({ done: 'success' });
+        else res.send({ data: 'fail' });
+      })
+    } else res.send({ data: 'fail' });
+  })
+}
+
 const updateSex = (req, res, next) => {
   const { sex } = req.body;
   const { username } = req.session;
@@ -94,7 +141,8 @@ const getCity = (req, res, next) => {
         res.send({
           city: loc[0].city || 'Paris',
           country: loc[0].country || 'France',
-          latitude: payload.latitude || paris,lat,
+          latitude: payload.latitude || paris, 
+lat,
           longitude: payload.longitude || paris.lon,
         })
       });
@@ -105,12 +153,13 @@ const getCity = (req, res, next) => {
             location: {
               country: loc[0].country,
               city: loc[0].city,
-              latitude: payload.latitude || paris, lat,
+              latitude: payload.latitude || paris,
+lat,
               longitude: payload.longitude || paris.lon,
-            }
-          }
+            },
+          },
         }, (err) => {
-          if(!err) log('Location updated');
+          if (!err) log('Location updated');
         })
       })
       return true;
@@ -128,7 +177,7 @@ const getLocation = (req, res, next) => {
   }), (err, loc) => {
     res.send({ address: loc[0].formattedAddress });
 
-    mongoConnectAsync(res, async(Users) => {
+    mongoConnectAsync(res, async (Users) => {
       Users.updateOne({ 'account.username': username }, {
         $set: {
           location: {
@@ -229,4 +278,7 @@ export default {
   updateName,
   updateMail,
   updateSex,
+  updateOrientation,
+  deleteInterest,
+  getInterests,
 }

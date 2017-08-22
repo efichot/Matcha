@@ -19,6 +19,9 @@ router.post('/biography/update', profile.updateBiography);
 router.post('/name/update', profile.updateName);
 router.post('/mail/update', profile.updateMail);
 router.post('/sex/update', profile.updateSex);
+router.post('/orientation/update', profile.updateOrientation);
+router.post('/interest/delete', profile.deleteInterest);
+router.get('/interests/list', profile.getInterests)
 
 router.get('/user/new/visit/:id', user.addVisitor);
 router.get('/user/get/visits/:id', user.getVisitors);

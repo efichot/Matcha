@@ -209,9 +209,77 @@ $(document).ready(() => {
             const data = { sex: $('.gender-input:checked').val() };
             if (data.sex === 'Male' || data.sex === 'Female' || data.sex === 'Other') {
                 $.post('/sex/update', data).done((data) => {
-                    
+                    if (data.done === 'success') {
+                        $('#span-sex').html($('#.gender-input:checked').val());
+                        $('#form-sex').addClass('hidden');
+                        $('#sex').removeCLass('hidden');
+                    }
                 })
             }
         }
     })
+
+    $('#edit-orientation').on('click', () => {
+        $('#orientation').addClass('hidden');
+        $('#form-orientation').removeClass('hidden');
+    });
+
+    $('#select-orientation').on('click', () => {
+        if ($('.orientation-input:checked').val()) {
+            const data = { orientation: $('.orientation-input:checked').val() };
+            if (data.orientation === 'Straight' || data.orientation === 'Gay' || data.orientation === 'Bisexual') {
+                $.post('/orientation/update', data).done((data) => {
+                    if (data.done === 'success') {
+                        $('#span-orientation').html($('#.gender-input:checked').val());
+                        $('#form-orientation').addClass('hidden');
+                        $('#orientation').removeCLass('hidden');
+                    }
+                })
+            }
+        }
+    })
+
+    const supprTag = () => {
+        $('.btn-tag').on({
+            'mouseover': function() {
+                $(this).find('span-glyphicon')
+                    .removeClass('glyphicon-tag')
+                    .addClass('glyphicon-minus-sign');
+            }, 'mouseout': function () {
+                $(this).find('span-glyphicon')
+                    .removeClass('glyphicon-minus-sign')
+                    .addClass('glyphicon-tag');
+            }, 'click': function () {
+                const current = $(this);
+                $.post('/interest/delete', { delete: current.find('.span-interest').html() }).done((data) => {
+                    if (data.done === 'success')
+                        current.remove();
+                });
+            }
+        })
+    }
+
+    supprTag();
+
+    function prepareInterests(interests) {
+        let toPrint = '';
+        $.each(interests, (v, i) => {
+            toPrint += '<button type="button" class="btn btn-warning btn-xs btn-tag"><span class="glyphicon glyphicon-tag" aria-hidden="true"></span><span class="span-interest">' + v + '</span></button>';
+        });
+        return toPrint;
+    }
+
+    function validateInterest(interest) {
+        const regex = /^([a-zA-Z\-]{1,17})$/;
+        return  regex.test(interest);
+    }
+
+    $('#add-interest').on('click', function() {
+        $('.input-interest').val('');
+        $(this).addClass('hidden');
+        $('$form-interests').removeClass('hidden');
+        $.get('/interests/list').done((data) => {
+            
+        })
+    })    
 })

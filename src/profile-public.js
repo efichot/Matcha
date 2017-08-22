@@ -31,15 +31,15 @@ const getPopularity = (req, res, next) => {
           $set: {
             popularity: score,
           }
-        } (err) => {
+        }, (err) => {
           if (err) log('Not enougth informations to get popularity');
         }
-      })
+      );
 
       res.send({ done: 'success', score });
       
     }
-  })
+  });
 }
 
 const getLikes = (req, res, next) => {
@@ -70,7 +70,7 @@ const getLikes = (req, res, next) => {
 const getVisitors = (req, res, next) => {
   const { id } = req.params;
 
-  mongoConnectAsync(res, aync (Users) => {
+  mongoConnectAsync(res, async (Users) => {
     const user = await findOne({ _id: ObjectID(id) });
 
     if (user && user.visits) {
