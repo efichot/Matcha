@@ -1,0 +1,47 @@
+nav.navbar.navbar-default.navbar-fixed-top
+  .container-fluid
+    // Brand and toggle get grouped for better mobile display
+    .navbar-header
+      a.navbar-brand(href='#')
+        | MAT
+        strong CHA
+    // Collect the nav links, forms, and other content for toggling
+    #bs-example-navbar-collapse-1.collapse.navbar-collapse
+      form.navbar-form.navbar-left(role='search')
+        .form-group
+          input.form-control(type='text', placeholder='Search', disabled='')
+        button.btn.btn-default(type='submit', disabled='')
+          span.glyphicon.glyphicon-search(aria-hidden='true')
+      ul.nav.navbar-nav.navbar-right
+        li(class=#{navProfile ? 'active' : ''})
+          a(href='/profile')
+            span.glyphicon.glyphicon-user(aria-hidden='true')
+            span#nav-username {{ login }}
+        li(class=#{navAround ? 'active' : ''})
+          a(href='/around-me')
+            span.glyphicon.glyphicon-globe(aria-hidden='true')
+            |  Around me
+        li(class=#{navSearch ? 'active' : ''})
+          a(href='/advanced-search')
+            span.glyphicon.glyphicon-search(aria-hidden='true')
+            |  Advanced search
+        li
+          a(href='/messages')
+            span.glyphicon.glyphicon-comment(aria-hidden='true')
+        li
+          a#notifs(href='#')
+            span.glyphicon.glyphicon-bell(aria-hidden='true')
+            span#notifs-badge.badge-nav.badge(style='vertical-align:top;') 0
+        li
+          a(href='/logout')
+            span.glyphicon.glyphicon-log-out(aria-hidden='true')
+    // /.navbar-collapse
+  // /.container-fluid
+#notifications.panel.panel-warning
+  .panel-heading
+    h5.panel-title
+      | Notifications 
+      span#close-notifs.glyphicon.glyphicon-remove-sign.pull-right(aria-hidden='true')
+  .panel-body
+    ul#notif-tab
+script(type='text/javascript', src='/js/nav.js')
