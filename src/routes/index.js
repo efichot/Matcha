@@ -2,6 +2,7 @@ import express from 'express';
 import home from '../homepage';
 import profile from '../profile-private';
 import user from '../profile-public';
+import around from '../around-me';
 
 const router = express.Router();
 
@@ -26,14 +27,15 @@ router.post('/interest/add', profile.addInterests);
 router.post('/cover/upload', profile.addCover);
 router.post('/cover/upload', profile.uploadPhoto);
 router.get('/photo/set/:index', profile.setProfile);
-router.get('/photo/delete/:index', profile.deletePhoto)
+router.get('/photo/delete/:index', profile.deletePhoto);
+router.get('/set/connection', profile.setLastConnection);
 
 router.get('/user/new/visit/:id', user.addVisitor);
 router.get('/user/get/visits/:id', user.getVisitors);
 router.get('/user/get/likes/:id', user.getLikes);
 router.get('/popularity/:id', user.getPopularity);
 
-router.get('/set/connection', profile.setLastConnection);
+router.get('/around-me', around.renderPage);
 
 export default router
 
