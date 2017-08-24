@@ -4,6 +4,7 @@ import profile from '../profile-private';
 import user from '../profile-public';
 import around from '../around-me';
 import search from '../advanced-search';
+import messages from '../messages';
 
 const router = express.Router();
 
@@ -38,6 +39,8 @@ router.get('/popularity/:id', user.getPopularity);
 
 router.get('/around-me', around.renderPage);
 router.get('/advanced-search', search.renderPage);
+router.get('/messages', messages.renderPage);
+router.get('/messages/get', messages.getMessages);
 
 export default router
 
