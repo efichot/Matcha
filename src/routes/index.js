@@ -3,6 +3,7 @@ import home from '../homepage';
 import profile from '../profile-private';
 import user from '../profile-public';
 import around from '../around-me';
+import search from '../advanced-search';
 
 const router = express.Router();
 
@@ -36,6 +37,7 @@ router.get('/user/get/likes/:id', user.getLikes);
 router.get('/popularity/:id', user.getPopularity);
 
 router.get('/around-me', around.renderPage);
+router.get('/advanced-search', search.renderPage);
 
 export default router
 
