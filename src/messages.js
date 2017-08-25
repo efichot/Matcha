@@ -1,6 +1,23 @@
 import _ from 'lodash';
 import { log } from 'console';
 import mongoConnectAsync from './mongo';
+import { ObjectID } from 'mongodb';
+
+const postMessage = (req, res ,next) => {
+  const { username, userID, firstname } = req.session;
+  const { toID, message } = req.body;
+
+  mongoConnectAsync(res, async (Users) => {
+    const my = await Users.findOne({ 'account.username': username });
+    const these = await Users.findOne({ _id: ObjectID(toID) });
+
+    if (my && these) {
+
+    } else {
+      res.end();
+    }
+  })
+}
 
 const getMessages = (req, res, next) => {
   const { username } = req.session;
@@ -47,5 +64,6 @@ const renderPage = (req, res) => {
 
 export default {
   renderPage,
-  getMeassages,
+  getMessages,
+  postMessages,
 }
