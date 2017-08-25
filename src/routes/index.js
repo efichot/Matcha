@@ -41,6 +41,7 @@ router.get('/around-me', around.renderPage);
 router.get('/advanced-search', search.renderPage);
 router.get('/messages', messages.renderPage);
 router.get('/messages/get', messages.getMessages);
+router.post('/messages/post', messages.postMessages);
 
 export default router
 
