@@ -4,6 +4,27 @@ function protectEntry(message) {
     message = message.replace(/>/g, '&gt;');
 }
 
+const getNewMessages = () => {
+    $.get('/messages/get', (data) => {
+        if (data === 'success') {
+            $('.messages').empty();
+            $.each(data.messages, function(index, user) {
+                $.each(user.discussion, function(index, message) {
+                    let date = $.format.prettyDate(message.date);
+
+                    if (message.type === 'received') {
+                        $('#messages .' + user.infos.userID + ' .discussion .messages')
+                            .append('<div class="' + user.infos.userID + ' panel-body"><div class="discussion"><div class="messages"></div></div></div>');
+                    } else if (message.type === 'sent') {
+                        $('#messages .' + user.infos.userID + ' .discussion .messages')
+                            .append('<div class="' + user.infos.userID + ' panel-body hidden"><div class="discussion"><div class="messages"></div></div></div>');
+                    }
+                })
+            })
+        }
+    })
+}
+
 const getMessages = () => {
     $('#userlist').empty();
     $('#messages').empty();
@@ -59,3 +80,7 @@ const getMessages = () => {
 $(document).ready(()=> {
     getMessages();
 })
+
+setInterval(() => {
+    getNewMessages();
+}, 10000);

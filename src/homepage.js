@@ -4,6 +4,12 @@ import hash from 'mhash';
 import { log } from 'console';
 import { ObjectID } from 'mongodb';
 
+const logout = (req, res, next) => {
+  req.session.destroy((err) => {
+    if (!err) res.redirect('/');
+  });
+}
+
 const renderHome = (req, res, next) => {
   // addFixures(res);
 
@@ -133,4 +139,5 @@ export default {
   sendResetEmail,
   resetPassword,
   setNewPassword,
+  logout,
 };

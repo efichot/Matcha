@@ -12,7 +12,34 @@ const postMessage = (req, res ,next) => {
     const these = await Users.findOne({ _id: ObjectID(toID) });
 
     if (my && these) {
+      const myMessages = _.get(my, 'messages', {});
+      const theseMessages = _.get(these, 'messages', {});
+      const theseNotifs = _.get(these, 'notifications', []);
 
+      myMessages[these.acount.username].discussion.push({
+        type: 'sent',
+        date: Date.now(),
+        message,
+      });
+
+      theseMessages[my.account.username].discussion.push({
+        type: 'received',
+        date: Date.now(),
+        message,
+      });
+
+      theseNotifs.slice(5);
+      theseNotifs.unshift({
+        type:'message',
+        date: Date.now(),
+        userID,
+        firstname,
+      });
+
+      Users.updateOne({ 'account.username': username, { $set: { messages: mymessage }, });
+      Users.updateOne({ _id: these._id },  { $set: { messages: theseMessages, notifications: theseNotifs }, });
+
+      res.send({ done: 'success' });
     } else {
       res.end();
     }

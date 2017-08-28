@@ -4,6 +4,17 @@ import _ from 'lodash';
 import { log } from 'console';
 import { getAge } from './lib';
 
+const getNotifications = (req, res, next) => {
+  const { username } = req.session;
+
+  mongoConnectAsync(res, async (Users) => {
+    const user = await Users.findOne({ 'account.username': username });
+
+    if (user) res.send({ done: 'success', notifs: _.get(user, 'notifications', []) });
+    else res.send({ fail: 'no notifications' });
+  });
+}
+
 const getPopularity = (req, res, next) => {
   const { id } = req.params;
   let score = 0;  
@@ -142,4 +153,5 @@ export default {
   getVisitors,
   getLikes,
   getPopularity,
+  getNotifications,
 }

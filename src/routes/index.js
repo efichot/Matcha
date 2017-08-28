@@ -27,7 +27,7 @@ router.post('/interest/delete', profile.deleteInterest);
 router.get('/interests/list', profile.getInterests);
 router.post('/interest/add', profile.addInterests);
 router.post('/cover/upload', profile.addCover);
-router.post('/cover/upload', profile.uploadPhoto);
+router.post('/photo/upload', profile.uploadPhoto);
 router.get('/photo/set/:index', profile.setProfile);
 router.get('/photo/delete/:index', profile.deletePhoto);
 router.get('/set/connection', profile.setLastConnection);
@@ -35,6 +35,7 @@ router.get('/set/connection', profile.setLastConnection);
 router.get('/user/new/visit/:id', user.addVisitor);
 router.get('/user/get/visits/:id', user.getVisitors);
 router.get('/user/get/likes/:id', user.getLikes);
+router.get('/notifications', user.getNotifications);
 router.get('/popularity/:id', user.getPopularity);
 
 router.get('/around-me', around.renderPage);
@@ -42,6 +43,8 @@ router.get('/advanced-search', search.renderPage);
 router.get('/messages', messages.renderPage);
 router.get('/messages/get', messages.getMessages);
 router.post('/messages/post', messages.postMessages);
+
+router.get('/logout', home.logout);
 
 export default router
 
