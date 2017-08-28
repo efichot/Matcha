@@ -1,9 +1,9 @@
 import _ from 'lodash';
 import { log } from 'console';
-import mongoConnectAsync from './mongo';
+import mongoConnectAsync from './config/mongo';
 import { ObjectID } from 'mongodb';
 
-const postMessage = (req, res ,next) => {
+const postMessage = (req, res) => {
   const { username, userID, firstname } = req.session;
   const { toID, message } = req.body;
 
@@ -13,59 +13,53 @@ const postMessage = (req, res ,next) => {
 
     if (my && these) {
       const myMessages = _.get(my, 'messages', {});
+      // const myNotifs = _.get(my, 'notifications', []);
       const theseMessages = _.get(these, 'messages', {});
       const theseNotifs = _.get(these, 'notifications', []);
 
-      myMessages[these.acount.username].discussion.push({
+      myMessages[these.account.username].discussion.push({
         type: 'sent',
         date: Date.now(),
         message,
       });
 
-      theseMessages[my.account.username].discussion.push({
+      theseMessages[username].discussion.push({
         type: 'received',
         date: Date.now(),
         message,
       });
 
-      theseNotifs.slice(5);
+      theseNotifs.splice(5);
       theseNotifs.unshift({
-        type:'message',
+        type: 'message',
         date: Date.now(),
         userID,
         firstname,
       });
 
-      Users.updateOne({ 'account.username': username, { $set: { messages: mymessage }, });
-      Users.updateOne({ _id: these._id },  { $set: { messages: theseMessages, notifications: theseNotifs }, });
+      Users.updateOne({ 'account.username': username }, { $set: { messages: myMessages } });
+      Users.updateOne({ _id: these._id }, { $set: { messages: theseMessages, notifications: theseNotifs } });
 
       res.send({ done: 'success' });
-    } else {
-      res.end();
-    }
-  })
-}
+    } else res.end();
+  });
+};
 
-const getMessages = (req, res, next) => {
+const getMessages = (req, res) => {
   const { username } = req.session;
 
   mongoConnectAsync(res, async (Users) => {
     const user = await Users.findOne({ 'account.username': username });
 
-    if (!user) {
-      log('Error: User not found, redirect to login page.');
-      res.send({
-        done: 'User has not messages yet',
-      });
-    } else {
+    if (user) {
       res.send({
         done: 'success',
-        messages: _.get(user, 'messages', []);
-        photo: _.get(user, 'photo', 'http://fakeimg.pl/300x300/'),
+        messages: _.get(user, 'messages', []),
+        photo: _.get(user, 'photos.profile', 'http://fakeimg.pl/300x300/'),
       });
-    }
+    } else res.send({ done: 'User has not messages yet' });
   });
-}
+};
 
 const renderPage = (req, res) => {
   const { username } = req.session;
@@ -73,24 +67,25 @@ const renderPage = (req, res) => {
   mongoConnectAsync(res, async (Users) => {
     const user = await Users.findOne({ 'account.username': username });
 
-    if (!user) {
-      log('Error: User not found, redirect to login page.');
-      res.redirect('/');
-    } else {
+    if (user) {
       res.render('messages', {
         isNotHome: true,
-        title: 'Matcha - Mesages',
+        title: 'Matcha - Messages',
         bodyPage: 'messages-body',
         user,
         id: user._id,
-        login: _.capitalize(_.get(req.session, 'firstname', 'profile'));
+        login: _.capitalize(_.get(req.session, 'firstname', 'profile')),
       });
+    } else {
+      log('Error: User not found, redirect to login page.');
+      res.redirect('/');
     }
   });
 };
 
 export default {
-  renderPage,
+  postMessage,
   getMessages,
-  postMessages,
-}
+  renderPage,
+};
+

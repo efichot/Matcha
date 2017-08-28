@@ -13,15 +13,15 @@ nav.navbar.navbar-default.navbar-fixed-top
         button.btn.btn-default(type='submit', disabled='')
           span.glyphicon.glyphicon-search(aria-hidden='true')
       ul.nav.navbar-nav.navbar-right
-        li(class=#{navProfile ? 'active' : ''})
+        li(class=navProfile ? 'active' : '')
           a(href='/profile')
             span.glyphicon.glyphicon-user(aria-hidden='true')
-            span#nav-username {{ login }}
-        li(class=#{navAround ? 'active' : ''})
+            span#nav-username #{login}
+        li(class=navAround ? 'active' : '')
           a(href='/around-me')
             span.glyphicon.glyphicon-globe(aria-hidden='true')
             |  Around me
-        li(class=#{navSearch ? 'active' : ''})
+        li(class=navSearch ? 'active' : '')
           a(href='/advanced-search')
             span.glyphicon.glyphicon-search(aria-hidden='true')
             |  Advanced search

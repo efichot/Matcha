@@ -11,17 +11,17 @@ block content
 
   .profile-picture
     #profile-pic.profile.img-circle(style="background-image : url('" + user.photos.profile + "');")
-  .main-infos
+  .main-infoss
     h2#first-last
-      span#user-first #{user.info.firstname}
-      span#user-last  #{user.info.lastname}
+      span#user-first #{user.infos.firstname}
+      span#user-last  #{user.infos.lastname}
       button#edit-first-last.btn.btn-warning.btn-xs(type='button')
         span.glyphicon.glyphicon-pencil(aria-hidden='true')
         |  Edit
     form#form-first-last.hidden
       .input-group.input-group-sm
-        input#first-input.form-control.form-dual(type='text', value=user.info.firstname, placeholder='First Name')
-        input#last-input.form-control.form-dual(type='text', value=user.info.lastname, placeholder='Last Name')
+        input#first-input.form-control.form-dual(type='text', value=user.infos.firstname, placeholder='First Name')
+        input#last-input.form-control.form-dual(type='text', value=user.infos.lastname, placeholder='Last Name')
         span.input-group-btn
           button#change-first-last.btn.btn-warning(type='button') Change
       // /input-group
@@ -65,11 +65,11 @@ block content
             |  Edit
         .panel-body
           #bio-area-edit.form-group.hidden
-            textarea#textarea-bio.form-control(rows='5') #{user.info.biography}
+            textarea#textarea-bio.form-control(rows='5') #{user.infos.biography}
             button#bio-area-button.btn.btn-warning.btn-sm(type='button')
               span.glyphicon.glyphicon-pencil(aria-hidden='true')
               |  Submit my new biography
-          span#span-bio #{user.info.biography}
+          span#span-bio #{user.infos.biography}
 
       .panel.panel-warning
         .panel-heading
@@ -109,7 +109,7 @@ block content
                   |  No
               tr
                 th(scope='row') Birthdate
-                td #{user.info.birthdate}
+                td #{user.infos.birthdate}
               tr
                 th(scope='row') Age
                 td #{age} years old
@@ -117,7 +117,7 @@ block content
                 th(scope='row') Sex
                 td
                   span#sex
-                    span#span-sex #{user.info.sex}
+                    span#span-sex #{user.infos.sex}
                     button#edit-sex.btn.btn-warning.btn-xs(type='button')
                       span.glyphicon.glyphicon-pencil(aria-hidden='true')
                       |  Edit
@@ -139,7 +139,7 @@ block content
                 th(scope='row') Orientation
                 td
                   span#orientation
-                    span#span-orientation #{user.info.orientation}
+                    span#span-orientation #{user.infos.orientation}
                     button#edit-orientation.btn.btn-warning.btn-xs(type='button')
                       span.glyphicon.glyphicon-pencil(aria-hidden='true')
                       |  Edit

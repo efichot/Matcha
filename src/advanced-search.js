@@ -1,92 +1,94 @@
 import { log } from 'console';
 import _ from 'lodash';
-import mongoConnectAsync from './mongo';
+import mongoConnectAsync from './config/mongo';
 import {  getAge, sortUsersByDistance, getDistance } from './lib';
 
 const listAllInterests = (allUsers, me) => {
-    const allInterests = [];
+  const list = me.interests ? me.interests : [];
 
-    for (i = 0; i < me.interests.length; i++) {
-        allInterests.push(me.interests[i]);
-    }
-    for (i=0; i<allUsers.length; i++) {
-        if (allInterests.indexOf(allUsers.interests[i]) === -1) {
-            allInterests.push(allUsers.interests[i]);
-        }
-    }
-    return allInterests.sort();
-}
+  for (let i = 0; i < allUsers.length; i++) {
+    allUsers[i].interests = allUsers[i].interests ? allUsers[i].interests : [];
 
-const sortByPopularity = (allUsers) => {
-    for (i = 0; i < allUsers.length; i++) {
-        for (j = i + 1; j < allUsers.length; j++) {
-            if (parseInt(allUsers[i].popularity, 10) > parseInt(allUsers[j].popularity, 10)) {
-                const tmp = allUsers[i];
-                allUsers[i] = allUsers[j];
-                allUsers[j] = tmp;
-            }
-        }
-    }
-    return (allUsers);
-}
+    for (let j = 0; j < allUsers[i].interests.length; j++)
+      list.push(allUsers[i].interests[j]);
+  }
+  return (_.uniq(list).sort());
+};
 
 const sortUsersByAge = (allUsers) => {
-    const ret = allUsers;
-    for (i = 0; i < allUsers.length; i++) {
-        for (j = i + 1; j < allUsers.length; j++) {
-            if (parseInt(allUsers[i].age, 10) > parseInt(allUsers[j].age, 10)) {
-                const tmp = allUsers[i];
-                allUsers[i] = allUsers[j];
-                allUsers[j] = tmp;
-            }
-        }
+  const ret = allUsers.slice(0);
+  for (let i = 0; i < allUsers.length; i++) {
+    for (let j = i + 1; j < allUsers.length; j++) {
+      if (parseInt(ret[i].age, 10) > parseInt(ret[j].age, 10)) {
+        const tmp = ret[i];
+        ret[i] = ret[j];
+        ret[j] = tmp;
+      }
     }
-    return (allUsers);
-}
+  }
+  return (ret);
+};
 
-const renderPage = (req, res, next) => {
-    const { username } = req.session;
+const sortUsersByPopularity = (allUsers) => {
+  const ret = allUsers.slice(0);
+  for (let i = 0; i < allUsers.length; i++) {
+    for (let j = i + 1; j < allUsers.length; j++) {
+      if (parseInt(ret[i].popularity, 10) < parseInt(ret[j].popularity, 10)) {
+        const tmp = ret[i];
+        ret[i] = ret[j];
+        ret[j] = tmp;
+      }
+    }
+  }
+  return (ret);
+};
 
-    mongoConnectAsync(res, async (Users) => {
-        const user = await findOne({ 'account.username': username });
+const renderPage = (req, res) => {
+  const { username } = req.session;
 
-        if (!user) {
-            log('Error: User not found, redirect to login page.');
-            res.redirect('/');
+  mongoConnectAsync(res, async (Users) => {
+    const user = await Users.findOne({ 'account.username': username });
+
+    if (!user) {
+      log('Error: User not found, redirect to login page.');
+      res.redirect('/');
+    } else {
+      const allUsers = [];
+      const me = user;
+      const reports = user.reports ? user.reports : [];
+      const myLongitude = user.location && user.location.longitude ? user.location.longitude : 0;
+      const myLatitude = user.location && user.location.latitude ? user.location.latitude : 0;
+
+      Users.find({}).each((err, user) => {
+        if (user !== null) {
+          if (user.account.username !== req.session.username && reports.indexOf(user.account.username) === -1) {
+            user.age = getAge(user.infos.birthdate);
+            user.distance = user.location ? getDistance(myLatitude, myLongitude, user.location.latitude, user.location.longitude) : 999;
+            user.infos.sex = user.infos.sex ? user.infos.sex : 'Other';
+            user.location = user.location ? user.location : {};
+            user.location.city = user.location && user.location.city ? user.location.city : 'Not defined';
+            user.infos.orientation = user.infos.orientation ? user.infos.orientation : 'Bisexual';
+            user.photo = user.photos && user.photos.profile ? user.photos.profile : 'http://fakeimg.pl/200x200/';
+            user.popularity = user.popularity ? user.popularity : 50;
+            allUsers.push(user);
+          }
         } else {
-            let allUsers = [];
-            const me = user;
-            const reports = user.reports || [];
-            const myLongitude = user.location && user.location.longitude ? user.location.longitude : 0;
-            const myLatitude = user.location && user.location.latitude ? user.location.latitude : 0;
+          res.render('search', {
+            isNotHome: true,
+            navSearch: true,
+            title: 'Matcha - Advanced Search',
+            bodyPage: 'profile-around',
+            login: _.capitalize(_.get(req.session, 'firstname', 'profile')),
+            byDistance: sortUsersByDistance(allUsers),
+            byAge: sortUsersByAge(allUsers),
+            byPopularity: sortUsersByPopularity(allUsers),
+            interests: listAllInterests(allUsers, me),
+          });
+        }
+      });
+    }
+  });
+};
 
-            Users.find({}).each((err, user) => {
-                if (user !== null) {
-                    if (user.account.username !== req.session.username && reports.indexOf(user.account.username) === -1) {
-                        user.age = getAge(user.info.birthdate);
-                        user.distance = user.location ? getDitance(myLatitude, myLongitude, user.location.latitude, user.location.longitude) : 9999;
-                        user.firstname = user.infos.firstname;
-                        user.sex = user.infos.sex ? user.infos.sex : 'Other';
-                        user.city = user.location ? user.location.city : 'Not defined';
-                        user.orientation = user.infos.orientation ? user.infos.orientation : 'Bisexual';
-                        user.photo = user.photo && user.photos.profile ? user.photo.profile : 'http://fakeimg.pl/200x200/';
-                        user.popularity = user.popularity ? user.popularity : 50;
-                        allUsers.push(user);
-                    } else {
-                        res.render('search', {
-                            isNotHome: true,
-                            navSearch: true,
-                            title: 'Matcha - Advanced Search',
-                            bodyPage: 'profile-around',
-                            login: _.capitalize(req.session.firstname),
-                            byDistance: sortUsersByDistance(allUsers),
-                            byAge: sortUsersByAge(allUsers),
-                            byPopularity: sortUsersByPopularity(allUsers),
-                            interests: listAllInterests(allUsers, me),
-                        })
-                    }
-            }
 
-export default {
-    renderPage,
-}
+export default { renderPage };

@@ -1,24 +1,24 @@
-(function () {
+(function() {
   var form = {
-    birthdate: false,
-    email: false,
-    username: false,
-    firstname: false,
-    lastname: false,
-    password: false
+    birthdate : false,
+    email : false,
+    username : false,
+    firstname : false,
+    lastname : false,
+    password : false
   };
 
   var signinForm = {
-    login: false,
+    login : false,
     pwd: false
   };
 
-  $('#bgvid').on('ended', function () {
+  $('#bgvid').on('ended', function() {
     console.log('video ended');
     $(this).play();
   });
 
-  $('#join-us').on('click', function () {
+  $('#join-us').on('click', function() {
     $('.lead').addClass('hidden');
     $('#home-login').addClass('hidden');
     $('#home-forgot').addClass('hidden');
@@ -26,7 +26,7 @@
     $('.jumbotron').css('margin-top', '3%');
   });
 
-  $('#members').on('click', function () {
+  $('#members').on('click', function() {
     $('.lead').addClass('hidden');
     $('#home-subscribe').addClass('hidden');
     $('#home-forgot').addClass('hidden');
@@ -34,7 +34,7 @@
     $('.jumbotron').css('margin-top', '6%');
   });
 
-  $('#signin-forgot').on('click', function () {
+  $('#signin-forgot').on('click', function() {
     $('.lead').addClass('hidden');
     $('#home-subscribe').addClass('hidden');
     $('#home-login').addClass('hidden');
@@ -42,7 +42,7 @@
     $('.jumbotron').css('margin-top', '5%');
   });
 
-  function checkBirthDate(dateToCheck) {
+  function checkBirthDate(dateToCheck){
     var arr_dateText = dateToCheck.split('/'),
       day = arr_dateText[0],
       month = arr_dateText[1],
@@ -86,7 +86,7 @@
   }
 
   function validateEmail(email) {
-    var regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    var regex =   /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return regex.test(email);
   }
 
@@ -112,7 +112,7 @@
 
   function checkForm(form) {
     var count = 0;
-    $.each(form, function (key, value) {
+    $.each(form, function(key, value) {
       if (value === false)
         count++;
     });
@@ -124,7 +124,7 @@
 
   function checkForm2(form) {
     var count = 0;
-    $.each(signinForm, function (key, value) {
+    $.each(signinForm, function(key, value) {
       if (value === false)
         count++;
     });
@@ -144,7 +144,7 @@
 
   $('#birthdate').on('keyup', birthdateIsOk);
 
-  $('#email').on('change input keyup', function () {
+  $('#email').on('change input keyup', function() {
     if ($(this).val().length > 6) {
       if (validateEmail($(this).val())) {
         $(this).closest('.form-sub')
@@ -169,7 +169,7 @@
     }
   });
 
-  $('#email2').on('change input keyup', function () {
+  $('#email2').on('change input keyup', function() {
     if ($(this).val().length > 6) {
       if (validateEmail($(this).val())) {
         $(this).closest('.form-group')
@@ -190,7 +190,7 @@
     }
   });
 
-  $('#newPassword').on('change input keyup', function () {
+  $('#newPassword').on('change input keyup', function() {
     if (validatePassword($(this).val())) {
       $(this).closest('.form-group')
         .addClass('has-success')
@@ -204,27 +204,27 @@
     }
   });
 
-  $('#forgot-button').on('click', function () {
+  $('#forgot-button').on('click', function() {
     if (validateEmail($('#email2').val())) {
       $.get('/send-reset-email/' + protectEntry($('#email2').val()))
-        .done(function (data) {
+        .done(function(data) {
           if (data.done === 'success')
             $('#forgot-button').html('<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>&nbsp; Message sent, check your email !');
         });
     }
   });
 
-  $('#reset-button').on('click', function () {
+  $('#reset-button').on('click', function() {
     if ($('#newPassword').val().length > 4 && $('#newPassword').val().length < 17) {
-      $.get('/reset-my-password/' + $('#id').html() + '/' + $('#newPassword').val()).done(function (data) {
-        if (data.done === 'success')
-          $('#reset-button').html('<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>&nbsp; Password changed, redirect...');
-        $(location).attr('href', '/');
-      });
+      $.get('/reset-my-password/' + $('#home-forgot').data('id') + '/' + $('#newPassword').val()).done(function(data) {
+          if (data.done === 'success')
+            $('#reset-button').html('<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>&nbsp; Password changed, redirect...');
+            $(location).attr('href', '/');
+        });
     }
   });
 
-  $('#login').on('change input keyup', function () {
+  $('#login').on('change input keyup', function() {
     if ($(this).val().length > 3) {
       if (validateUsername($(this).val())) {
         $(this).closest('.form-sub')
@@ -249,7 +249,7 @@
     }
   });
 
-  $('#firstname').on('change input keyup', function () {
+  $('#firstname').on('change input keyup', function() {
     if ($(this).val().length > 2) {
       if (validateUser($(this).val())) {
         $(this).closest('.form-sub')
@@ -273,7 +273,7 @@
     }
   });
 
-  $('#lastname').on('change input keyup', function () {
+  $('#lastname').on('change input keyup', function() {
     if ($(this).val().length > 2) {
       if (validateUser($(this).val())) {
         $(this).closest('.form-sub')
@@ -297,7 +297,7 @@
     }
   });
 
-  $('#password').on('change input keyup', function () {
+  $('#password').on('change input keyup', function() {
     if (validatePassword($(this).val())) {
       $(this).closest('.form-sub')
         .removeClass('has-error')
@@ -313,7 +313,7 @@
     }
   });
 
-  $('#login2').on('change input keyup', function () {
+  $('#login2').on('change input keyup', function() {
     if ($(this).val().length > 3) {
       if (validateUsername($(this).val())) {
         $(this).closest('.form-group')
@@ -338,7 +338,7 @@
     }
   });
 
-  $('#password2').on('change input keyup', function () {
+  $('#password2').on('change input keyup', function() {
     if (validatePassword($(this).val())) {
       $(this).closest('.form-group')
         .removeClass('has-error')
@@ -355,19 +355,19 @@
     }
   });
 
-  $('button.form-sub').on('submit click', function (e) {
+  $('button.form-sub').on('submit click', function(e) {
     e.preventDefault();
-    let newUser = {
-      username: protectEntry($('#login').val()),
-      password: $('#password').val(),
-      mail: protectEntry($('#email').val()),
-      firstname: protectEntry($('#firstname').val()),
-      lastname: protectEntry($('#lastname').val()),
-      birthdate: protectEntry($('#birthdate').val())
+    var newUser = {
+      username : protectEntry($('#login').val()),
+      password : $('#password').val(),
+      mail : protectEntry($('#email').val()),
+      firstname : protectEntry($('#firstname').val()),
+      lastname : protectEntry($('#lastname').val()),
+      birthdate : protectEntry($('#birthdate').val())
     };
 
     $.post('/user/add', newUser)
-      .done(function (data) {
+      .done(function(data) {
         console.log('Data sent successfully !', data);
         if (typeof data.redirect == 'string')
           window.location = data.redirect;
@@ -391,15 +391,15 @@
       });
   });
 
-  $('button#signin-button').on('submit click', function (e) {
+  $('button#signin-button').on('submit click', function(e) {
     e.preventDefault();
-    let user = {
-      username: protectEntry($('#login2').val()),
-      password: $('#password2').val()
+    var user = {
+      username : protectEntry($('#login2').val()),
+      password : $('#password2').val()
     };
 
     $.post('/user/login', user)
-      .done(function (data) {
+      .done(function(data) {
         console.log('User connection detected');
         if (typeof data.redirect == 'string')
           window.location = data.redirect;
@@ -418,7 +418,7 @@
           signinForm.pwd = false;
           checkForm2(signinForm);
         }
-      }).fail(function () {
+      }).fail(function() {
         console.log('Failed to find user...');
       });
   });
