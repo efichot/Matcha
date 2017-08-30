@@ -1,4 +1,48 @@
-extends layout/layout
+.container-fluid.matcha-around
+  .well
+    .row.filters
+      .col-md-4.col-xs-12
+        .form-group.blk-filters
+          span.label-filters Age range
+          input#age(type='text', data-slider-id='age-slider', data-provide='slider', value='', data-slider-min='18', data-slider-max='99', data-slider-step='1', data-slider-value='[18, 99]', data-slider-tooltip_position='bottom')
+      .col-md-4.col-xs-12
+        .form-group.blk-filters
+          span.label-filters Distance from me
+          input#distance(type='text', data-slider-id='distance-slider', data-provide='slider', value='', data-slider-min='0', data-slider-max='600', data-slider-step='50', data-slider-value='[0, 600]', data-slider-tooltip_position='bottom')
+      .col-md-4.col-xs-12
+        .form-group.blk-filters
+          span.label-filters Popularity score range
+          input#popularity(type='text', data-slider-id='pop-slider', data-provide='slider', value='', data-slider-min='0', data-slider-max='100', data-slider-step='5', data-slider-value='[0, 100]', data-slider-tooltip_position='bottom')
+    .row.filters
+      .col-md-12
+        center
+          span.label-filters My interests tags
+          each interest in myInterests
+            button.btn.btn-warning.btn-xs.btn-filters(type='button')
+              span.glyphicon.glyphicon-tag(aria-hidden='true')
+              span.span-interest #{interest}
 
-block content
-  h1 hehe
+  .row.profiles-around
+    each user in users
+      .col-md-3.col-xs-12.div-profil
+        .thumbnail.profil(data-age=user.age, data-popularity=user.popularity, data-distance=user.distance, data-interests=user.interests.join(','))
+          a(href='/user/#{user._id)
+            .img(style="background-image : url(user.photo);")
+          .caption
+            h5
+              span.glyphicon.glyphicon-user(aria-hidden='true')
+              |  #{firstname} #{user.infos.lastname}
+            p
+              span.glyphicon.glyphicon-map-marker(aria-hidden='true')
+              |  #{user.city}, #{user.location.country}
+            p
+              span.glyphicon.glyphicon-globe(aria-hidden='true')
+              |  About 
+              strong #{user.distance}
+              |  km
+            each interest in user.interests
+              button.btn.btn-warning.btn-xs.btn-tag(type='button')
+                span.glyphicon.glyphicon-tag(aria-hidden='true')
+                span.span-interest #{interest}
+
+script(type='text/javascript', src='/js/around.js')
