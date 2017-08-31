@@ -32,6 +32,7 @@ router.get('/photo/set/:index', profile.setProfile);
 router.get('/photo/delete/:index', profile.deletePhoto);
 router.get('/set/connection', profile.setLast);
 
+router.get('/user/:id', user.renderPublic);
 router.get('/user/new/visit/:id', user.addVisitor);
 router.get('/user/get/visits/:id', user.getVisitors);
 router.get('/user/get/likes/:id', user.getLikes);

@@ -140,10 +140,51 @@ const addVisitor = (req, res) => {
   });
 };
 
+const renderPublic = (req, res) => {
+  const { username } = req.session;
+  const { id } = req.params;
+  const indexes = ['photo0', 'photo1', 'photo2', 'photo3', 'photo4'];
+
+  mongoConnectAsync(res, async (Users) => {
+    const me = await Users.findOne({ 'account.username': username });
+    const user = await Users.findOne({ _id: ObjectID(id) });
+
+    if (!me) {
+      log('User not found, redirect to login page.');
+      return res.redirect('/');
+    } else if (!user) {
+      log('User not found, redirect to login page.');
+      return res.redirect('/profile');
+    }
+
+    const gallery = indexes.map(el => {
+      _.set(user, `photos.${el}`, _.get(user, `photos.${el}`, 'http://fakeimg.pl/300x300/'));
+      return _.get(user, `photos.${el}`, 'http://fakeimg.pl/300x300/');
+    });
+
+    _.set(user, 'photos.cover', _.get(user, 'photos.cover', 'http://fakeimg.pl/890x310/'));
+    _.set(user, 'photos.profile', _.get(user, 'photos.profile', 'http://fakeimg.pl/300x300/'));
+
+    return res.render('user', {
+      isNotHome: true,
+      title: 'Matcha - User',
+      bodyPage: 'profile-body',
+      user,
+      id: user._id,
+      login: _.capitalize(_.get(req.session, 'firstname', 'profile')),
+      age: getAge(user.infos.birthdate),
+      likes: _.get(user, 'likes', []).length,
+      notifs: _.get(user, 'notifications', []).length,
+      gallery,
+    });
+  });
+};
+
 export default {
   addVisitor,
   getVisitors,
   getLikes,
   popScore,
   getNotifications,
+  renderPublic,
 }
