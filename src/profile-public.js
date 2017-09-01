@@ -140,6 +140,42 @@ const addVisitor = (req, res) => {
   });
 };
 
+const likeUser = (res, req) => {
+  const { id } = req.body;
+  const { username } = req.session;
+
+  mongoConnectAsync(res, async (Users) => {
+    const visited = await Users.findOne({ _id: ObjectID(id) });
+    const visitor = await Users.findOne({ 'account.username': username });
+
+    if (!visitor || !visited || ObjectID(id)).equals(visitor._id || !visitor.account.hasProfilePicture) {
+      res.end();
+      return false;
+    }
+
+    const visitedLikes = _.get(visited, 'likes', []);
+    const visitorLikes = _.get(visitor, 'likes', []);
+    const isVisitorLikeVisited = visitedLikes.indexOf(visitor.account.username);
+    const isVisitedLikeVisitor = visitorLikes.indexOf(visited.account.username);
+
+    if (isVisitorLikeVisited === -1) {
+      _.get(visited, 'notifications', []);
+      _.get(visited, 'notifications', []).unshift({
+        type: 'like',
+        date: Date.now(),
+        userID: visitor._id,
+        firstname: visitor.infos.firsname,
+      });
+      visitedLikes.unshift(visitor.account.username);
+
+      if (isVisitedLikeVisitor !== -1) { //mutual likes
+        log('New Match!');
+        
+      }
+    }
+  });
+}
+
 const renderPublic = (req, res) => {
   const { username } = req.session;
   const { id } = req.params;

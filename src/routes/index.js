@@ -38,6 +38,7 @@ router.get('/user/get/visits/:id', user.getVisitors);
 router.get('/user/get/likes/:id', user.getLikes);
 router.get('/notifications', user.getNotifications);
 router.get('/popularity/:id', user.popScore);
+router.get('/like/plusone', user.likeUser);
 
 router.get('/around-me', around.renderPage);
 router.get('/advanced-search', search.renderPage);
