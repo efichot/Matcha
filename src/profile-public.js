@@ -170,8 +170,97 @@ const likeUser = (res, req) => {
 
       if (isVisitedLikeVisitor !== -1) { //mutual likes
         log('New Match!');
-        
+        const visitorMessages = _.get(visitor, 'messages', {});
+        const visitedMessages = _.get(visited, 'messages', {});
+        const visitorNotifs = _.get(visitor, 'notifications', []);
+        const visitedNotifs = _.get(visited, 'notifications', []);
+
+        visitedMessages[visitor.account.username] = {
+          infos: {
+            userID: visitor._id,
+            firstname: visitor.infos.firstname,
+            lastname: visitor.infos.lastname,
+            photo: _.get(visitor, 'photos.profile', 'http://fakeimg.pl/200x200'),
+          },
+          discussion: _.get(visited, `messages[${visitor.account.username}].discussion`, []),
+        }
+
+        visitorMessages[visited.account.username] = {
+          infos: {
+            userID: visited._id,
+            firstname: visited.infos.firstname,
+            lastname: visited.infos.lastname,
+            photo: _.get(visited, 'photos.profile', 'http://fakeimg.pl/200x200'),
+          },
+          discussion: _.get(visitor, `messages[${visited.account.username}].discussion`, []),
+        }
+
+        visitedMessages[visitor.account.username].discussion.push({
+          type: 'received',
+          date: Date.now(),
+          message: `Congratulations! You just match with ${visitor.infos.firstname}`,
+        });
+
+        visitorMessages[visited.account.username].discussion.push({
+          type: 'received',
+          date: Date.now(),
+          message: `Congratulations! You just match with ${visited.infos.firstname}`,
+        });
+
+        visitedNotifs.splice(5);
+        visitedNotifs.unshift({
+          type: 'match',
+          date: Date.now(),
+          userID: visitor._id,
+          firstname: visitor.infos.firstname,
+        });
+
+        Users.updateOne({ _id: visited._id }, {
+          $set: {
+            messages: visitedMessages,
+            notifications: visitedNotifs,
+          }
+        }, (err) => {
+          if (err) log(err);
+        });
+
+        visitorNotifs.splice(5);
+        visitorNotifs.unshift({
+          type: 'match',
+          date: Date.now(),
+          userID: visited._id,
+          firstname: visited.infos.firstname,
+        });
+
+        Users.updateOne({ _id: visitor._id }, {
+          $set: {
+            messages: visitorMessages,
+            notifications: visitorNotifs,
+          }
+        }, (err) => {
+          if (err) log(err);
+        });
       }
+    } else {
+      log('Visitor has already liked visited, dislike');
+      _.get(visited, 'notifications', []).splice(5);
+      _.get(visited, 'notifications', []).unshift({
+        type: 'dislike', 
+        date: Date.onw(),
+        usrID: visitor._id,
+        firstname: visitor.infos.firsname,
+      });
+      visitedLikes.splice(isVisitorLikeVisited, 1);
+    }
+
+    Users.updateOne({ _id: visited._id }), {
+      $set: {
+        likes: visitedLikes,
+        notification: visited.notifications,        
+      },
+    }, (err) => {
+      if (!err) res.send({ done: 'success', likes: visitedLikes.length });
+      else res.send({ fail: 'Like / Dislike is not possible' });
     }
   });
 }
