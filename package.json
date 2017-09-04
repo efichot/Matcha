@@ -13,7 +13,9 @@
     "build": "NODE_ENV=production backpack build",
     "start": "NODE_ENV=development backpack",
     "lint": "eslint -c .eslintrc src",
-    "deploy": "npm install && NODE_ENV=development backpack"
+    "build-css": "./bin/build-css",
+    "watch-css": "./bin/watch.css",
+    "deploy": "npm install && npm run build-css && npm start"
   },
   "repository": {
     "type": "git",
@@ -70,7 +72,8 @@
     "eslint": "^4.1.1",
     "eslint-config-airbnb-base": "^11.2.0",
     "eslint-plugin-import": "^2.6.1",
-    "morgan": "^1.7.0"
+    "morgan": "^1.7.0",
+    "node-sass": "^4.5.3"
   },
   "optionalDependencies": {
     "fsevents": "^1.1.2"
