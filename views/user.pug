@@ -42,7 +42,7 @@ block content
                             if user.location.address
                                 | #{user.location.address}
                             else
-                                | #{user.location.city}, #{user.locaation.country}
+                                | #{user.location.city}, #{user.location.country}
                         else
                             | User did not set hit location yet.
                 img#geo-map.hidden(src='', data-latitude=user.location.latitude, data-longitude=user.location.longitude)

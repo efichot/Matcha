@@ -1,0 +1,91 @@
+.home-body {
+  background-color: #FFF;
+  button-margin-right: 8px; }
+  .home-body h1 {
+    font-weight: 100;
+    margin-top: 0;
+    margin-left: -15px;
+    padding-left: 15px;
+    border-left: 5px solid #f0ad4e; }
+  .home-body #forgot-button {
+    width: 100%; }
+  .home-body .jumbotron {
+    background-color: rgba(255, 255, 255, 0.7);
+    max-width: 65%;
+    margin-top: 10%; }
+  .home-body p#instructions {
+    font-size: 14px;
+    line-height: 18px;
+    text-align: justify; }
+  .home-body .lead {
+    font-size: 18px;
+    color: #777; }
+  .home-body form {
+    margin-top: 6%; }
+    .home-body form .btn-link {
+      color: #f0ad4e !important; }
+    .home-body form .btn-link:hover, .home-body form btn-link:focus {
+      color: #eea236 !important;
+      text-decoration: none; }
+
+@media screen and (min-width: 768px) {
+  .home-body h1 {
+    margin-left: -60px;
+    padding-left: 60px;
+    border-left: 5px solid #f0ad4e; } }
+
+body {
+  background-color: #EFEFEF;
+  color: #333; }
+
+video#vid {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  z-index: -100;
+  -ms-transform: translateX(-50%) translateY(-50%);
+  -moz-transform: translateX(-50%) translateY(-50%);
+  -webkit-transform: translateX(-50%) translateY(-50%);
+  transform: translateX(-50%) translateY(-50%);
+  background-size: cover; }
+
+#notifications {
+  position: absolute;
+  max-width: 420px;
+  z-index: 4;
+  top: 55px;
+  right: 40px;
+  background-color: #f8f8f8;
+  box-shadow: 0 0 8px #CCC; }
+  #notifications .badge-nav {
+    vertical-align: top !important; }
+  #notifications ul {
+    padding: 0; }
+    #notifications ul .one-notif {
+      background-color: #f8f8f8;
+      list-style: none;
+      border-bottom: 1px solid #DDD;
+      padding: 10px 20px; }
+      #notifications ul .one-notif .icon-notif {
+        font-size: 24px;
+        display: inline-block;
+        vertical-align: -webkit-baseline-middle;
+        margin-right: 15px;
+        color: #808080; }
+      #notifications ul .one-notif .infos-notifs {
+        padding: 0;
+        display: inline-block;
+        vertical-align: top; }
+        #notifications ul .one-notif .infos-notifs li {
+          list-style: none; }
+          #notifications ul .one-notif .infos-notifs li a {
+            color: #FEBE7E; }
+    #notifications ul .one-notif:hover, #notifications ul .one-notif:focus {
+      background-color: #EFEFEF; }
+  #notifications .panel-body {
+    padding: 0 !important;
+    background-color: #fcf8e3 !important; }

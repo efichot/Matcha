@@ -36,6 +36,7 @@
   "homepage": "https://github.com/efichot/Matcha#readme",
   "dependencies": {
     "body-parser": "^1.15.2",
+    "bootstrap-slider": "^9.8.1",
     "cookie-parser": "^1.4.3",
     "cors": "^2.7.1",
     "dotenv": "^4.0.0",
