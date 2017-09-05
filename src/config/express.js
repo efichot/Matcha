@@ -7,6 +7,7 @@ import bodyParser from 'body-parser'
 import passport from 'passport'
 import session from 'express-session'
 import { log } from 'console'
+import hbs from 'express-handlebars';
 
 import router from '../routes'
 
@@ -14,7 +15,13 @@ const { SERVER_PORT } = process.env
 
 const app = express()
 
-app.set('view engine', 'pug'); // Set template engine
+app.set('view engine', 'handlebars'); // Set template engine
+app.engine('handlebars', hbs({
+  defaultLayout: 'main',
+  helpers: {
+    mod4: (key, options) => ((parseInt(key, 10) + 1) % 4) === 0 ? options.fn(this) : options.inverse(this),
+  },
+}))
 
 app
   .use(morgan('dev')) // :method :url :status :response-time ms - :res[content-length]

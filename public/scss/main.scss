@@ -17,7 +17,14 @@ body {
 	color: $lightDark;
 }
 
-video#vid {
+.wrapper {
+	background-color: $lightWhite;
+	width: 45%;
+	border-radius: 5px;
+	margin: 0 auto;
+}
+
+video#bgvid {
     position: fixed;
     top: 50%;
     left: 50%;

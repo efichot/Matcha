@@ -1,0 +1,60 @@
+// granada palette
+$lightDark: #333;
+$purple : #57385C;
+$pink: #A75265;
+$orange : #EC7263;
+$yellow : #FEBE7E;
+$cream : #FFEDBC;
+$lightWhite: #EFEFEF;
+
+.profile-around {
+	background-color: $lightWhite;
+
+	.matcha-around {
+		max-width: 923px;
+		margin-top: 70px;
+
+		.img {
+			width: auto;
+			min-height: 190px;
+			background-position: center;
+			background-size: cover;
+		}
+
+		.profil {
+			min-height: 386px;
+		}
+
+		button {
+			margin-bottom: 2px;
+		}
+
+		.label-filters {
+			width: 100%;
+			display: block;
+			font-weight: 700;
+			margin-bottom: 4px;
+		}
+
+		.blk-filters {
+			margin-left: 6%;
+
+			.slider {
+				margin-left: 10px;
+
+				.slider-selection {
+					background: #F7DCB5;
+				}
+
+				.slider-handle {
+					background: $yellow;
+					border: 1px solid $yellow;
+				}
+
+				.slider-tick {
+					background: #EFCD9C;
+				}
+			}
+		}
+	}
+}

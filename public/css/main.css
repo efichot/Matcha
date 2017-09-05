@@ -34,11 +34,253 @@
     padding-left: 60px;
     border-left: 5px solid #f0ad4e; } }
 
+#geo-map {
+  width: 100%; }
+
+.actions {
+  width: 100%;
+  margin-bottom: 20px; }
+  .actions .btn {
+    width: 33.4% !important; }
+
+.table {
+  margin-bottom: 0 !important; }
+
+.profile-body {
+  background-color: #EFEFEF; }
+  .profile-body .matcha-profile {
+    max-width: 923px;
+    margin-top: 28px; }
+    .profile-body .matcha-profile .details .thumbnail {
+      margin-bottom: 0; }
+    .profile-body .matcha-profile .profile-header {
+      height: 400px;
+      position: relative; }
+      .profile-body .matcha-profile .profile-header .header-picture {
+        width: 100%;
+        min-height: 310px;
+        background-image: url("http://fakeimg.pl/890x310/");
+        background-size: 100%;
+        background-repeat: no-repeat;
+        background-position: center;
+        border-radius: 4px; }
+        .profile-body .matcha-profile .profile-header .header-picture #bg-change {
+          position: relative;
+          left: 85%;
+          top: 42px; }
+        .profile-body .matcha-profile .profile-header .header-picture #btn-cover {
+          position: relative;
+          left: 86%;
+          top: 42px;
+          font-size: 12px;
+          line-height: 1.5em;
+          padding: 1px 5px;
+          max-height: 22px; }
+      .profile-body .matcha-profile .profile-header .profile-picture {
+        position: absolute;
+        top: 160px;
+        left: 20px;
+        z-index: 2; }
+        .profile-body .matcha-profile .profile-header .profile-picture img {
+          border: 5px solid #EFEFEF; }
+        .profile-body .matcha-profile .profile-header .profile-picture #img-change {
+          position: relative;
+          bottom: 70px; }
+        .profile-body .matcha-profile .profile-header .profile-picture .profile {
+          background-image: url("http://fakeimg.pl/200x200/");
+          border: 5px solid #EFEFEF;
+          vertical-align: middle;
+          background-size: cover;
+          background-repeat: no-repeat;
+          background-position: center;
+          width: 200px;
+          height: 200px; }
+      .profile-body .matcha-profile .profile-header .name {
+        top: 240px !important; }
+      .profile-body .matcha-profile .profile-header .main-infos {
+        position: absolute;
+        top: 200px;
+        left: 240px;
+        width: 42%; }
+        .profile-body .matcha-profile .profile-header .main-infos #first-last {
+          color: #FFF;
+          text-shadow: 0 0 8px #999; }
+        .profile-body .matcha-profile .profile-header .main-infos #mail {
+          color: #EFEFEF;
+          text-shadow: 0 0 8px #999; }
+    .profile-body .matcha-profile .photos-tab .img {
+      background-image: url("http://fakeimg.pl/300x300/");
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      width: auto;
+      min-height: 256px; }
+    .profile-body .matcha-profile .details .img {
+      background-image: url("http://fakeimg.pl/200x200/");
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      width: auto;
+      min-height: 128px; }
+    .profile-body .matcha-profile .nav-tabs {
+      margin-left: 205px; }
+  .profile-body #bio-area-edit button {
+    width: 100%;
+    margin-top: 6px; }
+  .profile-body #form-first-last {
+    margin-top: 20px;
+    margin-bottom: 10px; }
+  .profile-body #form-sex, .profile-body #form-orientation {
+    margin-top: -4px;
+    margin-bottom: -4px; }
+  .profile-body #add-interest:hover, .profile-body #add-interest:focus {
+    cursor: pointer;
+    color: #ec971f; }
+  .profile-body .nav-tabs > li > a, .profile-body .nav-tabs > li > a {
+    color: #333;
+    background-color: inherit;
+    border-bottom: 4px solid transparent;
+    border-top: none;
+    border-left: none;
+    border-right: none; }
+  .profile-body .nav-tabs > li.active > a, .profile-body .nav-tabs > li.active > a:focus, .profile-body .nav-tabs > li.active > a:hover {
+    color: #FEBE7E;
+    cursor: default;
+    font-weight: 500;
+    background-color: inherit;
+    border-bottom: 4px solid #FEBE7E;
+    border-top: none;
+    border-left: none;
+    border-right: none; }
+  .profile-body .panel-heading h3, .profile-body .panel-heading button {
+    display: inline-block; }
+  .profile-body .panel-heading button {
+    float: right; }
+  .profile-body .nav-tabs > li > a:focus, .profile-body .nav-tabs > li > a:hover {
+    color: #333;
+    cursor: pointer;
+    background-color: inherit;
+    border-bottom: 4px solid #333;
+    border-top: none;
+    border-left: none;
+    border-right: none; }
+  .profile-body .btn-tag {
+    margin-bottom: 2px; }
+  .profile-body .thumbnail img:hover img:focus {
+    -webkit-filter: grayscale(1);
+    -moz-filter: grayscale(1);
+    -o-filter: grayscale(1);
+    -ms-filter: grayscale(1);
+    filter: grayscale(1); }
+  .profile-body .thumbnail .btn-group {
+    width: 100%; }
+    .profile-body .thumbnail .btn-group .btn {
+      width: 33.5%; }
+  .profile-body .thumbnail .caption {
+    text-align: center;
+    padding-left: 0;
+    padding-right: 0;
+    padding-bottom: 0; }
+
+.profile-around {
+  background-color: #EFEFEF; }
+  .profile-around .matcha-around {
+    max-width: 923px;
+    margin-top: 70px; }
+    .profile-around .matcha-around .img {
+      width: auto;
+      min-height: 190px;
+      background-position: center;
+      background-size: cover; }
+    .profile-around .matcha-around .profil {
+      min-height: 386px; }
+    .profile-around .matcha-around button {
+      margin-bottom: 2px; }
+    .profile-around .matcha-around .label-filters {
+      width: 100%;
+      display: block;
+      font-weight: 700;
+      margin-bottom: 4px; }
+    .profile-around .matcha-around .blk-filters {
+      margin-left: 6%; }
+      .profile-around .matcha-around .blk-filters .slider {
+        margin-left: 10px; }
+        .profile-around .matcha-around .blk-filters .slider .slider-selection {
+          background: #F7DCB5; }
+        .profile-around .matcha-around .blk-filters .slider .slider-handle {
+          background: #FEBE7E;
+          border: 1px solid #FEBE7E; }
+        .profile-around .matcha-around .blk-filters .slider .slider-tick {
+          background: #EFCD9C; }
+
+.messages-body {
+  background-color: #EFEFEF; }
+  .messages-body .matcha-messages {
+    max-width: 923px;
+    margin-top: 70px; }
+  .messages-body #send-message button {
+    width: 100%;
+    margin-top: 5px; }
+  .messages-body #messages .panel-body .discussion .messages span.img-circle {
+    display: inline-block;
+    vertical-align: middle;
+    width: 34px;
+    height: 34px;
+    background-size: cover;
+    background-position: center; }
+  .messages-body #messages .panel-body .discussion .messages p.message-content {
+    display: inline-block;
+    vertical-align: baseline;
+    padding: 5px 15px;
+    border-radius: 10px; }
+  .messages-body #messages .panel-body .discussion .messages small.text-muted {
+    position: absolute;
+    color: #BBB;
+    font-size: 75%; }
+  .messages-body #messages .panel-body .discussion .messages .message-single {
+    position: relative;
+    margin-bottom: 18px; }
+  .messages-body #messages .panel-body .discussion .messages .received {
+    padding-right: 25%; }
+    .messages-body #messages .panel-body .discussion .messages .received p.message-content {
+      background-color: #EFEFEF;
+      color: #555; }
+    .messages-body #messages .panel-body .discussion .messages .received span.img-circle {
+      margin-right: 10px; }
+    .messages-body #messages .panel-body .discussion .messages .received small.text-muted {
+      bottom: -8px;
+      left: 45px; }
+  .messages-body #messages .panel-body .discussion .messages .sent {
+    padding-left: 25%; }
+    .messages-body #messages .panel-body .discussion .messages .sent p.message-content {
+      background-color: #FEBE7E;
+      color: #FEBE7E; }
+    .messages-body #messages .panel-body .discussion .messages .sent span.img-circle {
+      margin-left: 10px; }
+    .messages-body #messages .panel-body .discussion .messages .sent small.text-muted {
+      bottom: -8px;
+      right: 45px; }
+  .messages-body .panel .media-object {
+    width: 71px;
+    height: 71px;
+    background-size: cover;
+    background-position: center; }
+  .messages-body .panel .btn {
+    width: 100%; }
+  .messages-body .panel a.btn {
+    margin-bottom: 3px; }
+
 body {
   background-color: #EFEFEF;
   color: #333; }
 
-video#vid {
+.wrapper {
+  background-color: #EFEFEF;
+  width: 45%;
+  border-radius: 5px;
+  margin: 0 auto; }
+
+video#bgvid {
   position: fixed;
   top: 50%;
   left: 50%;
