@@ -32,7 +32,17 @@
   .home-body h1 {
     margin-left: -60px;
     padding-left: 60px;
-    border-left: 5px solid #f0ad4e; } }
+    border-left: 5px solid #f0ad4e; }
+  .wrapper {
+    background-color: #EFEFEF;
+    width: 45%;
+    min-width: 700px;
+    border-radius: 5px;
+    margin: 0 auto; } }
+
+@media screen and (max-width: 768px) {
+  video#bgvid {
+    display: none; } }
 
 #geo-map {
   width: 100%; }
@@ -273,12 +283,6 @@
 body {
   background-color: #EFEFEF;
   color: #333; }
-
-.wrapper {
-  background-color: #EFEFEF;
-  width: 45%;
-  border-radius: 5px;
-  margin: 0 auto; }
 
 video#bgvid {
   position: fixed;

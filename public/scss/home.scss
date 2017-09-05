@@ -1,3 +1,12 @@
+// granada palette
+$lightDark: #333;
+$purple : #57385C;
+$pink: #A75265;
+$orange : #EC7263;
+$yellow : #FEBE7E;
+$cream : #FFEDBC;
+$lightWhite: #EFEFEF;
+
 .home-body {
   background-color: #FFF;
 
@@ -56,4 +65,18 @@
       border-left: 5px solid #f0ad4e;
     }
   }
+
+  .wrapper {
+    background-color: $lightWhite;
+    width: 45%;
+    min-width: 700px;
+    border-radius: 5px;
+    margin: 0 auto;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  video#bgvid {
+    display: none;
+   }
 }
