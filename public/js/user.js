@@ -1,11 +1,17 @@
+const apiKey = 'AIzaSyD3sBJxfVvWi7lTho6zvsaLm_-0zhCdDCI';
+const geoMap = $('#geo-map');
+
+const initStaticMap = (lat, lng) =>
+  `https://maps.googleapis.com/maps/api/staticmap?center=${lat},${lng}&size=330x280
+  &markers=red:yellow%7Clabel:S%7C${lat},${lng}
+  &key=${apiKey}&zoom=16`;
+
 $(document).ready(function() {
     if ($('#geo-map').data('latitude') && $('#geo-map').data('longitude')) {
-        const url = GMaps.staticMapURL({
-            size: [330, 280],
-            lat: $('#geo-map').data('latitude'),
-            lon: $('#geo-map').data('longitude'),
-        });
-        $('#geo-map').attr('src', url).removeClass('hidden');
+        if ($('#geo-map').data('latitude') && $('#geo-map').data('longitude')) {
+            const url = initStaticMap($('#geo-map').data('latitude'), $('#geo-map').data('longitude'));
+            geoMap.attr('src', url).removeClass('hidden');
+        }
     }
 
     const userID = $('.actions > a').attr('href').split('/')[2];
@@ -14,7 +20,7 @@ $(document).ready(function() {
     if (typeof date === 'undefined') {
         date = 'Not connected yet';
     }
-    $('#connected').html('<span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span>' + date);
+    $('#connected').html('<span class="glyphicon glyphicon-time" aria-hidden="true"></span>' + `   ${date}`);
 
     if (parseInt($('#like .badge').html()) > 0) {
         $('#like .glyphicon').removeClass('glyphicon-heart-empty').addClass('glyphicon-heart');
@@ -54,7 +60,7 @@ $(document).ready(function() {
 
     $.get(`/popularity/${userID}`).done((data) => {
         if (typeof data.score !== 'undefined') {
-            $('#popularity').html(`${score}%`);
+            $('#popularity').html(`${data.score}%`);
         }
     });
 

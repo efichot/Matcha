@@ -90,8 +90,10 @@ const addNewUser = (req, res) => {
         account: { username, password: hash('whirlpool', password), mail },
         infos: { firstname, lastname, birthdate },
         location: { latitude: 48.8965533, longitude: 2.3185364, },
+        likes: [],
         interests: [],
         reports: [],
+        notifications: [],
       });
 
       if (insertedCount > 0 && ops[0]) {

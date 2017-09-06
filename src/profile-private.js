@@ -57,15 +57,16 @@ const setProfile = (req, res) => {
 const uploadPhoto = (req, res) => {
   const { username } = req.session;
   const { photo, index } = req.body;
-  const myObject = {};
-  _.set(myObject, `photos.photo${index}`, photo);
 
   mongoConnectAsync(res, async (Users) => {
     const user = await Users.findOne({ 'account.username': username });
 
+    user.photos = _.get(user, 'photos', {});
+    _.set(user.photos, `photo${index}`, photo);
+
     if (user) {
       Users.updateOne({ 'account.username': username }, {
-        $set: myObject,
+        $set: user,
       }, (err) => {
         if (!err) res.send({ done: 'success' });
         else res.send({ done: 'fail' });
@@ -239,8 +240,8 @@ const editBiography = (req, res) => {
 
 const getCity = (req, res) => {
   const { username } = req.session;
-  const latParis = 48.8965533;
-  const lngParis = 2.3185364;
+  const latParis = 48.8965853;
+  const lngParis = 2.3184926;
 
   getIP((err, ip) => {
     satelize({ ip }, (err, payload) => {
@@ -265,8 +266,8 @@ const getCity = (req, res) => {
               location: {
                 country: loc[0].country,
                 city: loc[0].city,
-                latitude: _.get(payload, 'latitude', latParis),
-                longitude: _.get(payload, 'longitude', lngParis),
+                latitude: parseFloat(_.get(payload, 'latitude', latParis)),
+                longitude: parseFloat(_.get(payload, 'longitude', lngParis)),
               },
             },
           }, (err) => {
@@ -296,8 +297,8 @@ const getAddress = (req, res) => {
             country: loc[0].country,
             city: loc[0].city,
             address: loc[0].formattedAddress,
-            latitude: req.body.latitude,
-            longitude: req.body.longitude,
+            latitude: parseFloat(req.body.latitude),
+            longitude: parseFloat(req.body.longitude),
           },
         },
       }, (err) => {

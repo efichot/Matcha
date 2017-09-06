@@ -38,13 +38,13 @@ router.get('/user/get/visits/:id', user.getVisitors);
 router.get('/user/get/likes/:id', user.getLikes);
 router.get('/notifications', user.getNotifications);
 router.get('/popularity/:id', user.popScore);
-router.get('/like/plusone', user.likeUser);
+router.post('/like/plusone', user.likeUser);
 
 router.get('/around-me', around.renderPage);
 router.get('/advanced-search', search.renderPage);
 router.get('/messages', messages.renderPage);
 router.get('/messages/get', messages.getMessages);
-router.post('/messages/post', messages.postMessage);
+router.post('/message/post', messages.postMessage);
 
 router.get('/logout', home.logout);
 

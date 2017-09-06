@@ -1,3 +1,4 @@
+
 $('#notifications').hide();
 var open = false;
 

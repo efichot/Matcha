@@ -34,7 +34,7 @@
     padding-left: 60px;
     border-left: 5px solid #f0ad4e; }
   .wrapper {
-    background-color: #EFEFEF;
+    background-color: rgba(255, 255, 255, 0.7);
     width: 45%;
     min-width: 700px;
     border-radius: 5px;
@@ -264,7 +264,7 @@
     padding-left: 25%; }
     .messages-body #messages .panel-body .discussion .messages .sent p.message-content {
       background-color: #FEBE7E;
-      color: #FEBE7E; }
+      color: #EFEFEF; }
     .messages-body #messages .panel-body .discussion .messages .sent span.img-circle {
       margin-left: 10px; }
     .messages-body #messages .panel-body .discussion .messages .sent small.text-muted {
