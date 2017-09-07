@@ -3,7 +3,7 @@
 
 		<div class="header-picture" style="background-image : url('{{user.photos.cover}}');">
 			<span id="btn-cover" class="btn btn-warning btn-sm btn-file">
-				<span class="glyphicon glyphicon-picture" aria-hidden="true"></span> &nbsp;Change cover <input type="file">
+				<span class="glyphicon glyphicon-picture" aria-hidden="true"></span> &nbsp;Change cover <input type="file" id='input-file'>
 			</span>
 		</div>
 
@@ -44,7 +44,7 @@
 			<div class="btn-group actions" role="group" aria-label="...">
 				<button type="button" class="btn btn-default disabled"><span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span> <span class="badge">{{ likes }}</span></button>
 				<a href="/user/{{user._id}}" class="btn btn-default" role="button"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></a>
-				<button type="button" class="btn btn-default disabled"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
+				<button type="button" class="btn btn-default"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
 			</div>
 
 			<div class="panel panel-warning">
@@ -89,7 +89,7 @@
 						<thead>
 							<tr>
 								<th>Popularity</th>
-								<th id="popularity">93%</th>
+								<th id="popularity">{{user.popularity}}%</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -267,9 +267,9 @@
 							<div class="thumbnail" id="{{@key}}">
 								<div class="img" style="background-image : url('{{this}}');"></div>
 								<div class="caption">
-									<div class="btn-group" role="group" aria-label="...">
-										<span class="btn btn-warning btn-sm btn-file change-photo">
-											<span class="glyphicon glyphicon-picture" aria-hidden="true"></span> Change<input type="file" data-index="{{@key}}">
+									<div class="btn-group" role="group" aria-label="..." >
+										<span class="btn btn-warning btn-sm btn-file change-photo" id='btn-cover2'>
+											<span class="glyphicon glyphicon-picture" aria-hidden="true"></span> Change<input type="file" id='input-file' data-index="{{@key}}">
 										</span>
 										<button data-index="{{@key}}" type="button" class="btn btn-warning btn-sm make-default"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Default</button>
 										<button type="button" data-index="{{@key}}" class="btn btn-default btn-sm delete-photo"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</button>
@@ -299,7 +299,9 @@
 								<a href="#"><div class="img"></div></a>
 								<div class="caption">
 									<h5>{{this}}</h5>
-									<p><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> <span class="location"></span></p>
+									<button type='submit' id='accepted' data-name='{{this}}' class='btn btn-warning btn-lg button-accepted'>
+									<span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Accepted <span class="location"></span>										
+									</button>
 								</div>
 							</div>
 						</div>

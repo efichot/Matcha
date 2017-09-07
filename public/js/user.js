@@ -58,12 +58,6 @@ $(document).ready(function() {
         }
     });
 
-    $.get(`/popularity/${userID}`).done((data) => {
-        if (typeof data.score !== 'undefined') {
-            $('#popularity').html(`${data.score}%`);
-        }
-    });
-
     $('thumbnail').on({
         'mouseover': function() {
             $(this).find('.img').css({
@@ -113,8 +107,20 @@ $(document).ready(function() {
             } else if (data.fail === 'You already like this user') {
                 console.log('You already like this user');
             }
+            location.reload();        
         })
     });
+
+    $('#report').on('click', (e) => {
+        $.post('/report', { id: userID }).done((data) => {
+            if (data.done === 'success') {
+                console.log('user reported');
+            } else {
+                console.log('trouble to report user');
+            }
+        })
+        $(location).attr('href', '/profile');
+    })
 
     
 });

@@ -94,6 +94,7 @@ const addNewUser = (req, res) => {
         interests: [],
         reports: [],
         notifications: [],
+        visits: [],
       });
 
       if (insertedCount > 0 && ops[0]) {

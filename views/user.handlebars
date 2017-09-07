@@ -19,9 +19,9 @@
 	<div class="row profile-timeline tab-menu" id="tab-about">
 		<div class="col-md-5 about-me">
 			<div class="btn-group actions" role="group" aria-label="...">
-				<button id="like" type="button" class="btn btn-default"><span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span> <span class="badge">{{ likes }}</span></button>
+				<button id="like" type="button" class="btn btn-default {{disabled}}"><span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span> <span class="badge">{{ likes }}</span></button>
 				<a href="/user/{{user._id}}" class="btn btn-default disabled" role="button"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></a>
-				<button id="report" type="button" class="btn btn-default"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
+				<button id="report" type="button" class="btn btn-default {{disabled}}"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
 			</div>
 
 			<div class="panel panel-warning">
@@ -58,7 +58,7 @@
 						<thead>
 							<tr>
 								<th>Popularity</th>
-								<th id="popularity">0%</th>
+								<th id="popularity">{{user.popularity}}%</th>
 							</tr>
 						</thead>
 						<tbody>

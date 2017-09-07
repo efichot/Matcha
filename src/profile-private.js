@@ -322,6 +322,25 @@ const setLast = (req, res) => {
   });
 };
 
+const dereportUser = (req, res) => {
+  const { username } = req.session;
+  const { name } = req.body;
+
+  mongoConnectAsync(res, async (Users) => {
+    const me = await Users.findOne({ 'account.username': username });
+
+    const reports = me.reports;
+    reports.splice(reports.indexOf(name), 1);
+
+    Users.updateOne({ 'account.username': username }, {
+      $set: { reports },
+    }, (err) => {
+      if (!err) res.send({ done: 'success' });
+      else res.send({ done: 'fail' });
+    });
+  });
+}
+
 const renderProfile = (req, res) => {
   const { username } = req.session;
   const indexes = ['photo0', 'photo1', 'photo2', 'photo3', 'photo4'];
@@ -374,4 +393,5 @@ export default {
   getAddress,
   getCity,
   renderProfile,
+  dereportUser,
 };

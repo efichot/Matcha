@@ -394,3 +394,15 @@ $('.menu-profile li a').on('click', function() {
     $(this).closest('li').addClass('active');
   }
 });
+
+$('.button-accepted').each(function(i) {
+  $(this).on('click', function(e) {
+    const name = $(this).data('name');
+    $.post('/dereport/', { name }).done((data) => {
+      if (data.done === 'success') {
+        console.log(`user ${i} accepted`);
+      }
+    });
+    $(location).attr('href', '/profile');
+  });
+});

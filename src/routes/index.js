@@ -31,6 +31,7 @@ router.post('/photo/upload', profile.uploadPhoto);
 router.get('/photo/set/:index', profile.setProfile);
 router.get('/photo/delete/:index', profile.deletePhoto);
 router.get('/set/connection', profile.setLast);
+router.post('/dereport', profile.dereportUser);
 
 router.get('/user/:id', user.renderPublic);
 router.get('/user/new/visit/:id', user.addVisitor);
@@ -39,6 +40,7 @@ router.get('/user/get/likes/:id', user.getLikes);
 router.get('/notifications', user.getNotifications);
 router.get('/popularity/:id', user.popScore);
 router.post('/like/plusone', user.likeUser);
+router.post('/report', user.reportUser);
 
 router.get('/around-me', around.renderPage);
 router.get('/advanced-search', search.renderPage);

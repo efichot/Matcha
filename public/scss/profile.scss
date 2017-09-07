@@ -236,4 +236,14 @@ $lightWhite: #EFEFEF;
 			padding-bottom: 0;
 		}
 	}
+
+	#input-file {
+		opacity: 0;
+		position:relative;
+		margin-top: -15px;
+	}
+
+	#btn-cover {
+		margin-left: -250px;
+	}
 }

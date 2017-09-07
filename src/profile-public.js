@@ -106,8 +106,8 @@ const addVisitor = (req, res) => {
       return false;
     }
 
-    const visited = await Users.findOne({ _id: ObjectID(userID) });
-    const visitor = await Users.findOne({ _id: ObjectID(id) });
+    const visitor = await Users.findOne({ _id: ObjectID(userID) });
+    const visited = await Users.findOne({ _id: ObjectID(id) });
 
     if (visitor && visited) {
       _.get(visited, 'notifications', []).splice(5);
@@ -259,6 +259,46 @@ const likeUser = (req, res) => {
   });
 };
 
+const reportUser = (req, res) => {
+  const { username } = req.session;
+  const { id } = req.body;
+
+  mongoConnectAsync(res, async (Users) => {
+    const me = await Users.findOne({ 'account.username': username });
+    const user = await Users.findOne({ _id: ObjectID(id) });
+
+    if (!me) {
+      log('User not found, redirect to login page.');
+      return res.redirect('/');
+    } else if (!user) {
+      log('User not found, redirect to login page.');
+      return res.redirect('/profile');
+    }
+
+    const reports = me.reports || [];
+    reports.push(user.account.username);
+    Users.updateOne({ 'account.username': username }, {
+      $set: {
+        reports,
+      },
+    });
+
+    const notifications = user.notifications || [];
+    notifications.push({
+      type: 'report',
+      date: Date.now(),
+      userID: me._id,
+      firstname: me.infos.firstname,
+    });
+
+    Users.updateOne({ _id: ObjectID(id) }, {
+      $set: {
+        notifications,
+      },
+    });
+  })
+}
+
 const renderPublic = (req, res) => {
   const { username } = req.session;
   const { id } = req.params;
@@ -274,6 +314,11 @@ const renderPublic = (req, res) => {
     } else if (!user) {
       log('User not found, redirect to login page.');
       return res.redirect('/profile');
+    }
+
+    let disabled = '';
+    if (_.isEqual(me, user)) {
+      disabled = 'disabled';
     }
 
     const gallery = indexes.map(el => {
@@ -295,6 +340,7 @@ const renderPublic = (req, res) => {
       likes: _.get(user, 'likes', []).length,
       notifs: _.get(user, 'notifications', []).length,
       gallery,
+      disabled,
     });
   });
 };
@@ -307,4 +353,5 @@ export default {
   getNotifications,
   renderPublic,
   likeUser,
+  reportUser,
 }
