@@ -26,8 +26,8 @@ app.engine('handlebars', hbs({
 app
   .use(morgan('dev')) // :method :url :status :response-time ms - :res[content-length]
   .use(cookieParser()) // read cookies signed or not signed
-  .use(bodyParser.json()) // Parse application/json
-  .use(bodyParser.urlencoded({ extended: true })) // Parse application/x-www-form-urlencoded
+  .use(bodyParser.json({ limit: '5mb' })) // Parse application/json
+  .use(bodyParser.urlencoded({ extended: true, limit: '5mb' })) // Parse application/x-www-form-urlencoded
   .use(cors()) // Enable Cross Origin Resource Sharing
   .use(helmet()) // Secure your app by setting various HTTP headers
   .use(passport.initialize()) // initialize passport middleware

@@ -50,5 +50,8 @@ router.post('/message/post', messages.postMessage);
 
 router.get('/logout', home.logout);
 
+router.get('/undefined', home.undefined);
+
+
 export default router
 

@@ -4,9 +4,22 @@ import hash from 'mhash';
 import { log } from 'console';
 import { ObjectID } from 'mongodb';
 import _ from 'lodash';
+import fixtures from '../fixtures';
+
+const addFixtures = res => {
+  mongoConnectAsync(res, async (Users) => {
+    const count = await Users.find({}).count();
+
+    if (count === 1) {
+      fixtures.forEach(async (user) => {
+        Users.insertOne(user);
+      });
+    }
+  });
+};
 
 const renderHome = (req, res) => {
-  // addFixtures(res);
+  addFixtures(res);
 
   res.render('home', {
     isNotHome: false,
@@ -109,6 +122,10 @@ const addNewUser = (req, res) => {
   });
 };
 
+const undefined = (req, res) => {
+  res.redirect('/profile');
+}
+
 const connectUser = (req, res) => {
   const { username, password } = req.body;
 
@@ -136,4 +153,5 @@ export default {
   addNewUser,
   connectUser,
   logout,
+  undefined,
 };
