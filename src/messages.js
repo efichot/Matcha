@@ -11,7 +11,7 @@ const postMessage = (req, res) => {
     const my = await Users.findOne({ 'account.username': username });
     const these = await Users.findOne({ _id: ObjectID(toID) });
 
-    if (my && these) {
+    if ((my && these) && my.reports.indexOf(these.account.username) === -1 &&  these.reports.indexOf(my.account.username) === -1) {
       const myMessages = _.get(my, 'messages', {});
       // const myNotifs = _.get(my, 'notifications', []);
       const theseMessages = _.get(these, 'messages', {});

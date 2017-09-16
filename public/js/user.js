@@ -7,6 +7,16 @@ const initStaticMap = (lat, lng) =>
   &key=${apiKey}&zoom=16`;
 
 $(document).ready(function() {
+
+    const userID = $('.actions > a').attr('href').split('/')[2];
+
+    $.post('/reported', { id: userID }).done((data) => {
+        if (data.done === 'user is reported') {
+            console.log('user is reported');
+            $(location).attr('href', '/profile');
+        }
+    });
+
     if ($('#geo-map').data('latitude') && $('#geo-map').data('longitude')) {
         if ($('#geo-map').data('latitude') && $('#geo-map').data('longitude')) {
             const url = initStaticMap($('#geo-map').data('latitude'), $('#geo-map').data('longitude'));
@@ -14,7 +24,6 @@ $(document).ready(function() {
         }
     }
 
-    const userID = $('.actions > a').attr('href').split('/')[2];
 
     date = $.format.prettyDate(parseInt($('#connected').html()));
     if (typeof date === 'undefined') {

@@ -35,40 +35,6 @@ const users = [
   },
   {
     account: {
-      username: 'Guillaume',
-      password: '',
-      mail: 'guillaume@fakemail.com',
-      hasProfilePicture: true,
-    },
-    infos: {
-      firstname: 'Guillaume',
-      lastname: 'Durand',
-      birthdate: '21/01/1991',
-      biography: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-      sex: 'Male',
-      orientation: 'Bisexual',
-    },
-    location: {
-      country: 'France',
-      city: 'Bordeaux',
-      latitude: '44.822231',
-      longitude: '-0.571032',
-      address: '1 Rue de Cadaujac, 33800 Bordeaux, France',
-    },
-    notifications: [],
-    popularity: 99,
-    interests: ['tennis', 'footing', 'baseball', 'cinema'],
-    likes: ['Charlotte', 'William', 'Dominique'],
-    visits: ['Charlotte', 'Jeanne', 'Andrew'],
-    reports: ['Barbara'],
-    photos: {
-      cover: 'http://maxcdn.thedesigninspiration.com/wp-content/uploads/2012/06/Facebook-Covers-012.jpg',
-      profile: 'http://e2ua.com/data/wallpapers/65/WDF_1102596.jpg',
-      photo1: 'http://e2ua.com/data/wallpapers/65/WDF_1102596.jpg',
-    },
-  },
-  {
-    account: {
       username: 'William',
       password: '',
       mail: 'william@fakemail.com',

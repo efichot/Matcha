@@ -124,9 +124,9 @@ const addVisitor = (req, res) => {
         if (err) log('Visit notifications problem');
       });
 
-      if (_.get(visited, 'visits', []).indexOf(_.get(visitor, 'account.username') === -1)) {
+      if (visited.visits.indexOf(visitor.account.username) === -1) {
         _.get(visited, 'visits', []).unshift(_.get(visitor, 'account.username'));
-
+        
         Users.updateOne({ _id: ObjectID(id) }, {
           $set: {
             visits: visited.visits,
@@ -139,6 +139,22 @@ const addVisitor = (req, res) => {
     }
   });
 };
+
+const reportedUser = (req, res) => {
+  const { username } = req.session;
+  const { id } = req.body;
+
+  mongoConnectAsync(res, async (Users) => {
+    const me = await Users.findOne({ 'account.username': username });
+    const you = await Users.findOne({ _id: ObjectID(id) });
+
+    if (me.reports.indexOf(you.account.username) !== -1) {
+      res.send({ done: 'user is reported' });
+    } else {
+      res.send({ done: 'user is not reported' });
+    }
+  });
+}
 
 const likeUser = (req, res) => {
   const { username } = req.session;
@@ -354,4 +370,5 @@ export default {
   renderPublic,
   likeUser,
   reportUser,
+  reportedUser,
 }

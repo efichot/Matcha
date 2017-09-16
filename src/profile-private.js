@@ -240,19 +240,17 @@ const editBiography = (req, res) => {
 
 const getCity = (req, res) => {
   const { username } = req.session;
-  const latParis = 48.8965853;
-  const lngParis = 2.3184926;
+  const latParis = 48.866667;
+  const lngParis = 2.333333;
 
   getIP((err, ip) => {
     satelize({ ip }, (err, payload) => {
-      if (err) return res.end();
 
       geocoder.reverse({
         lat: _.get(payload, 'latitude', latParis),
         lon: _.get(payload, 'longitude', lngParis),
       }, (err, loc) => {
         if (err) return res.end();
-
         res.send({
           city: loc[0].city || 'Paris',
           country: loc[0].country || 'France',

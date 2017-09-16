@@ -41,6 +41,7 @@ router.get('/notifications', user.getNotifications);
 router.get('/popularity/:id', user.popScore);
 router.post('/like/plusone', user.likeUser);
 router.post('/report', user.reportUser);
+router.post('/reported', user.reportedUser);
 
 router.get('/around-me', around.renderPage);
 router.get('/advanced-search', search.renderPage);

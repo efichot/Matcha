@@ -101,7 +101,7 @@ const addNewUser = (req, res) => {
     } else {
       const { ops, insertedCount } = await Users.insertOne({
         account: { username, password: hash('whirlpool', password), mail },
-        infos: { firstname, lastname, birthdate },
+        infos: { firstname, lastname, birthdate, orientation: 'Bisexual' },
         location: { latitude: 48.8965533, longitude: 2.3185364, },
         likes: [],
         interests: [],
